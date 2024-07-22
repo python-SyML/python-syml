@@ -100,3 +100,8 @@ Note, to combine the coverage data from all the tox environments run:
       - ::
 
             PYTEST_ADDOPTS=--cov-append tox
+
+
+.. image:: https://api.codacy.com/project/badge/Grade/c67d6aeb590745b5832fd8e5d3d7717c
+   :alt: Codacy Badge
+   :target: https://app.codacy.com/gh/KillianVar/python-syml?utm_source=github.com&utm_medium=referral&utm_content=KillianVar/python-syml&utm_campaign=Badge_Grade
