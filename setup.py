@@ -13,7 +13,7 @@ def read(*names, **kwargs):
 
 setup(
     name="syml",
-    version="0.0.1",
+    version="0.0.2",
     license="MIT",
     description="SyML (Systematic Machine Learning) is library built to make Machine Learning simpler, by using SOTA ML, xAI and vizualisation methods.",
     long_description="{}\n{}".format(
