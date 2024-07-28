@@ -26,7 +26,7 @@ Overview
     :target: https://coveralls.io/github/KillianVar/python-syml?branch=main
 
 .. |codacy| image:: https://img.shields.io/codacy/grade/c67d6aeb590745b5832fd8e5d3d7717c.svg
-    :target: https://www.codacy.com/app/KillianVar/python-syml
+    :target: https://app.codacy.com/gh/KillianVar/python-syml/dashboard
     :alt: Codacy Code Quality Status
 
 .. |version| image:: https://img.shields.io/pypi/v/syml.svg
