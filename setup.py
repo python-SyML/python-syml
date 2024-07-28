@@ -58,6 +58,9 @@ setup(
         "Issue Tracker": "https://github.com/KillianVar/python-syml/issues",
     },
     keywords=[
+        "ML",
+        "machine-learning",
+        "xAI",
         # eg: "keyword1", "keyword2", "keyword3",
     ],
     python_requires=">=3.8",
