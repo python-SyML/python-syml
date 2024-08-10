@@ -2,6 +2,63 @@
 requires = [
     "setuptools>=30.3.0",
 ]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "syml"
+authors = [
+  {name = "Killian Varescon", email = "varesconk@gmail.com"},
+]
+readme = "README.rst"
+license = {file = "LICENSE"}
+description = "SyML (Systematic Machine Learning) is library built to make Machine Learning simpler, by using SOTA ML, xAI and vizualisation methods."
+version = "0.2.0"
+requires-python = ">=3.8"
+classifiers = [
+    # complete classifier list: http://pypi.python.org/pypi?%3Aaction=list_classifiers
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Unix",
+    "Operating System :: POSIX",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    # uncomment if you test on these interpreters:
+    # "Programming Language :: Python :: Implementation :: IronPython",
+    # "Programming Language :: Python :: Implementation :: Jython",
+    # "Programming Language :: Python :: Implementation :: Stackless",
+    "Topic :: Utilities",
+    ]
+
+keywords = [
+    "ML",
+    "machine-learning",
+    "xAI",
+    # eg: "keyword1", "keyword2", "keyword3",
+]
+
+dynamic = ["dependencies"]
+
+[project.urls]
+Documentation = "https://python-syml.readthedocs.io/"
+Changelog = "https://python-syml.readthedocs.io/en/latest/changelog.html"
+"Issue Tracker" = "https://github.com/KillianVar/python-syml/issues"
+
+[project.scripts]
+syml = "syml.cli:run"
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["docs/dependencies.txt"]}
+
 
 [tool.ruff]
 extend-exclude = ["static", "ci/templates"]
