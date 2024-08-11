@@ -15,7 +15,7 @@ project = "SyML"
 year = "2024"
 author = "Killian Varescon"
 copyright = f"{year}, {author}"
-version = release = "0.3.1"
+version = release = "0.3.2"
 
 pygments_style = "trac"
 templates_path = ["."]
