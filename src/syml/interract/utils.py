@@ -4,7 +4,7 @@ import streamlit as st
 
 @st.cache_data
 def read_data(path, nrows=None):
-    if path.isinstance(path, pd.DataFrame):
+    if isinstance(path, pd.DataFrame):
         df = path
     else:
         df = pd.read_csv(path)

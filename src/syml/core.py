@@ -8,7 +8,8 @@ def compute(args):
     return max(args, key=len)
 
 
-data = load_iris()
-df = pd.DataFrame(data=data.data, columns=data.feature_names)
-dash = Dashboard(df)
-dash.display()
+if __name__ == "__main__":
+    data = load_iris()
+    df = pd.DataFrame(data=data.data, columns=data.feature_names)
+    dash = Dashboard(df)
+    dash.display()
