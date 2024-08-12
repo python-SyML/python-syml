@@ -53,7 +53,7 @@ Overview
 
 .. end-badges
 
-SyML (Systematic Machine Learning) is library built to make Machine Learning simpler, by using SOTA ML, xAI and
+SyML (Systematic Machine Learning) is a library built to make Machine Learning simpler, by using SOTA ML, xAI and
 vizualisation methods.
 
 * Free software: MIT license

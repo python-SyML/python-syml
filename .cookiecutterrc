@@ -37,7 +37,7 @@ default_context:
     package_name: "syml"
     pre_commit: "yes"
     project_name: "SyML"
-    project_short_description: "SyML (Systematic Machine Learning) is library built to make Machine Learning simpler, by using SOTA ML, xAI and vizualisation methods."
+    project_short_description: "SyML (Systematic Machine Learning) is a library built to make Machine Learning simpler, by using SOTA ML, xAI and vizualisation methods."
     pypi_badge: "yes"
     pypi_disable_upload: "no"
     release_date: "today"
