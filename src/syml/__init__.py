@@ -1,7 +1,5 @@
-__version__ = "0.1.0"
+__version__ = "0.3.5"
 
-from .core import compute
+from .interract.dashboard import Dashboard
 
-__all__ = [
-    "compute",
-]
+__all__ = ["Dashboard"]

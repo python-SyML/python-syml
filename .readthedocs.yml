@@ -9,6 +9,7 @@ build:
     python: "3"
 python:
   install:
-    - requirements: docs/requirements.txt
+    - requirements: ci/requirements.txt
+    - dependencies: docs/dependencies.txt
     - method: pip
       path: .
