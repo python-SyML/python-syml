@@ -159,10 +159,7 @@ jobs:
       run: |
         tox -e ${{ matrix.tox_env }} -v
         ls .
-    - uses: actions/checkout@v2
     - name: Upload coverage report to codacy
-      env:
-        TOXPYTHON: '${{ matrix.toxpython }}'
       uses: codacy/codacy-coverage-reporter-action@v1.3.0
       with:
         project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
