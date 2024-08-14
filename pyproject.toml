@@ -12,7 +12,7 @@ authors = [
 readme = "README.rst"
 license = {file = "LICENSE"}
 description = "SyML (Systematic Machine Learning) is a library built to make Machine Learning simpler, by using SOTA ML, xAI and vizualisation methods."
-version = "0.3.18"
+version = "0.3.19"
 requires-python = ">=3.8"
 classifiers = [
     # complete classifier list: http://pypi.python.org/pypi?%3Aaction=list_classifiers
