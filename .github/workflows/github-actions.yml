@@ -1,7 +1,45 @@
 name: build
 on: [push, pull_request, workflow_dispatch]
 jobs:
-  test:
+  repo_test:
+      name: ${{ matrix.name }}
+      runs-on: ${{ matrix.os }}
+      timeout-minutes: 30
+      strategy:
+        fail-fast: false
+        matrix:
+          include:
+            - name: 'check'
+              python: '3.11'
+              toxpython: 'python3.11'
+              tox_env: 'check'
+              os: 'ubuntu-latest'
+            - name: 'docs'
+              python: '3.11'
+              toxpython: 'python3.11'
+              tox_env: 'docs'
+              os: 'ubuntu-latest'
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python }}
+        architecture: ${{ matrix.python_arch }}
+    - name: install dependencies
+      run: |
+        python -mpip install --progress-bar=off -r ci/requirements.txt
+        virtualenv --version
+        pip --version
+        tox --version
+        pip list --format=freeze
+    - name: test
+      env:
+        TOXPYTHON: '${{ matrix.toxpython }}'
+      run: >
+        tox -e ${{ matrix.tox_env }} -v
+  lib_test:
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
@@ -9,16 +47,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - name: 'check'
-            python: '3.11'
-            toxpython: 'python3.11'
-            tox_env: 'check'
-            os: 'ubuntu-latest'
-          - name: 'docs'
-            python: '3.11'
-            toxpython: 'python3.11'
-            tox_env: 'docs'
-            os: 'ubuntu-latest'
           - name: 'py38 (ubuntu)'
             python: '3.8'
             toxpython: 'python3.8'
