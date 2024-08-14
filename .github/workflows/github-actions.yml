@@ -156,13 +156,9 @@ jobs:
     - name: test
       env:
         TOXPYTHON: '${{ matrix.toxpython }}'
-      run: >
+      run: |
         tox -e ${{ matrix.tox_env }} -v
-    - name: generate report
-      env:
-        TOXPYTHON: '${{ matrix.toxpython }}'
-      run: >
-        pytest --cov --cov-report=term-missing --cov-report=xml -vv tests
+        ls .
     - uses: actions/checkout@v2
     - name: Upload coverage report to codacy
       env:
