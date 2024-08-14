@@ -45,9 +45,9 @@ Overview
     :alt: Supported implementations
     :target: https://pypi.org/project/syml
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/KillianVar/python-syml/v0.3.8.svg
+.. |commits-since| image:: https://img.shields.io/github/commits-since/KillianVar/python-syml/v0.3.9.svg
     :alt: Commits since latest release
-    :target: https://github.com/KillianVar/python-syml/compare/v0.3.8...main
+    :target: https://github.com/KillianVar/python-syml/compare/v0.3.9...main
 
 
 
