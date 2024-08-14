@@ -2,23 +2,23 @@ name: build
 on: [push, pull_request, workflow_dispatch]
 jobs:
   repo_test:
-      name: ${{ matrix.name }}
-      runs-on: ${{ matrix.os }}
-      timeout-minutes: 30
-      strategy:
-        fail-fast: false
-        matrix:
-          include:
-            - name: 'check'
-              python: '3.11'
-              toxpython: 'python3.11'
-              tox_env: 'check'
-              os: 'ubuntu-latest'
-            - name: 'docs'
-              python: '3.11'
-              toxpython: 'python3.11'
-              tox_env: 'docs'
-              os: 'ubuntu-latest'
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: 'check'
+            python: '3.11'
+            toxpython: 'python3.11'
+            tox_env: 'check'
+            os: 'ubuntu-latest'
+          - name: 'docs'
+            python: '3.11'
+            toxpython: 'python3.11'
+            tox_env: 'docs'
+            os: 'ubuntu-latest'
     steps:
     - uses: actions/checkout@v4
       with:
