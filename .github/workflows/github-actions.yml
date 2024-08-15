@@ -1,7 +1,7 @@
 name: build
 on: [push, pull_request, workflow_dispatch]
 jobs:
-  test:
+  repo_test:
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
@@ -19,6 +19,35 @@ jobs:
             toxpython: 'python3.11'
             tox_env: 'docs'
             os: 'ubuntu-latest'
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python }}
+        architecture: ${{ matrix.python_arch }}
+    - name: install dependencies
+      run: |
+        python -mpip install --progress-bar=off -r ci/requirements.txt
+        virtualenv --version
+        pip --version
+        tox --version
+        pip list --format=freeze
+    - name: test
+      env:
+        TOXPYTHON: '${{ matrix.toxpython }}'
+      run: >
+        tox -e ${{ matrix.tox_env }} -v
+  lib_test:
+    needs: repo_test
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
           - name: 'py38 (ubuntu)'
             python: '3.8'
             toxpython: 'python3.8'
@@ -127,10 +156,15 @@ jobs:
     - name: test
       env:
         TOXPYTHON: '${{ matrix.toxpython }}'
-      run: >
+      run: |
         tox -e ${{ matrix.tox_env }} -v
+    - name: Upload coverage report to codacy
+      uses: codacy/codacy-coverage-reporter-action@v1.3.0
+      with:
+        project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+        coverage-reports: coverage.xml
   finish:
-    needs: test
+    needs: lib_test
     if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
