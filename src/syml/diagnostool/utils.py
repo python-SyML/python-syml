@@ -30,12 +30,12 @@ def variability_calculator(df: pd.DataFrame):
     classification = classify_columns(df)
     variability = {}
 
-    if ("continuous" in classification).any():
+    if "continuous" in classification.values:
         continous_cols = df[classification[classification == "continuous"].index]
         continuous_var = continuous_variability(continous_cols)
         variability["continuous"] = continuous_var
 
-    if ("categorical" in classification).any():
+    if "categorical" in classification.values:
         categorical_cols = df[classification[classification == "categorical"].index]
         categorical_var = categorical_variability(categorical_cols)
         variability["categorical"] = categorical_var
