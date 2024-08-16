@@ -16,7 +16,7 @@ def classify_columns(df: pd.DataFrame) -> dict:
     for col in df.columns:
         inferred_dtype = pd.api.types.infer_dtype(df[col], skipna=True)
 
-        if inferred_dtype in ["string", "unicode", "mixed-integer", "mixed", "mixed-integer-float", "integer"]:
+        if inferred_dtype in ["string", "unicode", "mixed-integer", "mixed", "mixed-integer-float", "integer", "categorical", "boolean"]:
             classification[col] = "categorical"
         elif inferred_dtype in ["floating", "decimal"]:
             classification[col] = "continuous"

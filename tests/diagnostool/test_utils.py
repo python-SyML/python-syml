@@ -39,13 +39,13 @@ def test_continuous_variability(iris_dataframe):
     result = continuous_variability(continuous_df)
 
     # Verify the structure of the result
-    assert continuous_df.columns == result.columns
+    assert (continuous_df.columns == result.columns).all()
 
     # Ensure the calculation is correct
     expected = continuous_df / continuous_df.mean()
     expected = expected.describe().drop(["25%", "50%", "75%"])
 
-    pd.testing.assert_series_equal(result, expected)
+    pd.testing.assert_frame_equal(result, expected)
 
 
 def test_categorical_variability(iris_dataframe):
