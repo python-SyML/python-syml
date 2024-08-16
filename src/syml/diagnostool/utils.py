@@ -23,4 +23,47 @@ def classify_columns(df: pd.DataFrame) -> dict:
         else:
             classification[col] = "unknown"  # For types that don't clearly fall into either category
 
-    return classification
+    return pd.Series(classification, name="data type")
+
+
+def variability_calculator(df: pd.DataFrame):
+    classification = classify_columns(df)
+    variability = {}
+
+    if ("continuous" in classification).any():
+        continous_cols = df[classification[classification == "continuous"].index]
+        continuous_var = continuous_variability(continous_cols)
+        variability["continuous"] = continuous_var
+
+    if ("categorical" in classification).any():
+        categorical_cols = df[classification[classification == "categorical"].index]
+        categorical_var = categorical_variability(categorical_cols)
+        variability["categorical"] = categorical_var
+
+    return variability
+
+
+def categorical_variability(df: pd.DataFrame):
+    var = df.apply(categorical_variability_serie, axis=0)
+    var = var.drop(["25%", "50%", "75%"]).T
+    var = var.rename(
+        columns={
+            "mean": "average number of occurrence of a label",
+            "count": "number of unique labels",
+            "min": "minimum number of occurrences of a label",
+            "max": "maximum number of occurrences of a label",
+        }
+    )
+    return var
+
+
+def continuous_variability(df: pd.DataFrame):
+    var = df.std() / df.mean()
+    var = pd.DataFrame(var, columns=["normalized standard deviation"])
+    return var
+
+
+def categorical_variability_serie(s: pd.Series):
+    val_occurrence = s.value_counts()
+    var = val_occurrence.describe()
+    return var
