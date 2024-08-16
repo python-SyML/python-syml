@@ -31,7 +31,7 @@ class Dashboard:
                     On this page, you'll find below a few exploratory components to understand better your data. For more advanced features,
                     you can use the navigation menu to visit the other modules of SyML.
 
-                    First, you can have a look at a sample of your dataset. Then, the **field inspector** :microscope: will help you understand
+                    First, you can have a look at a sample of your dataset. Then, the **Field Inspector** :microscope: will help you understand
                     each field of your dataset :
                     - basic summarized information at first, like the data type,
                     - advanced information, like the variability, min-max values, etc.
@@ -39,7 +39,7 @@ class Dashboard:
 
     def data_explorer(self, data):
         st.divider()
-        st.subheader("Dataset overview")
+        st.header("Dataset overview")
         checkbox = st.checkbox("Display Raw Dataset")
 
         if checkbox:
