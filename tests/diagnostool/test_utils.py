@@ -1,3 +1,5 @@
+import pandas as pd
+
 from syml.diagnostool.utils import classify_columns
 
 
@@ -22,4 +24,6 @@ def test_classify_columns_with_iris(iris_dataframe):
         "target": "categorical",
     }
 
-    assert result == expected, f"Expected {expected} but got {result}"
+    expected = pd.Series(expected)
+
+    assert (result == expected).all(), f"Expected {expected} but got {result}"
