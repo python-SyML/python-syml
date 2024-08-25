@@ -1,6 +1,6 @@
 import streamlit as st
 
-from syml.diagnostool.calculator import data_profiler
+from syml.interract.field_inspector import FieldInspector
 
 from .utils import read_data
 
@@ -8,39 +8,39 @@ from .utils import read_data
 class Dashboard:
     def __init__(self, path, nrows=None) -> None:
         self.dataset = read_data(path, nrows)
+        self.field_inspector = FieldInspector()
 
     def display(self):
         data = self.dataset
 
-        st.title("SyML Dashboard")
-        st.header("Dataset overview")
+        self.introduction()
+        self.data_explorer(data)
 
+        self.field_inspector.display(data)
+
+    def introduction(self):
+        st.title("SyML Dashboard :bar_chart:")
+
+        st.markdown("""
+                    **Welcome to SyML Dashboard !**
+
+                    Thank you for dowloading SyML. Let us explain how it works.
+                    SyML is a python library that provides several NLP, ML and xAI services encapsulated within a nice UI.
+                    SyML aims to make data preparation, ML training and xAI usage the simplest possible.
+
+                    On this page, you'll find below a few exploratory components to understand better your data. For more advanced features,
+                    you can use the navigation menu to visit the other modules of SyML.
+
+                    First, you can have a look at a sample of your dataset. Then, the **Field Inspector** :microscope: will help you understand
+                    each field of your dataset :
+                    - basic summarized information at first, like the data type,
+                    - advanced information, like the variability, min-max values, etc.
+                    """)
+
+    def data_explorer(self, data):
+        st.divider()
+        st.header("Dataset overview")
         checkbox = st.checkbox("Display Raw Dataset")
 
         if checkbox:
             st.dataframe(data)
-
-        st.subheader("Field Inspector")
-
-        df = data_profiler(data)
-
-        st.data_editor(
-            df,
-            hide_index=True,
-            column_config={
-                "field names": st.column_config.TextColumn(
-                    "field names",
-                ),
-                "data type": st.column_config.TextColumn(
-                    "data type",
-                    help="Data is either Continuous (length, amount of money, ...) or Categorical (gender, name of a color, ...)",
-                ),
-                "field completion": st.column_config.ProgressColumn(
-                    "field completion",
-                    help="percentage of rows that contain a value for each field",
-                    format="%.0f",
-                    min_value=0,
-                    max_value=100,
-                ),
-            },
-        )
