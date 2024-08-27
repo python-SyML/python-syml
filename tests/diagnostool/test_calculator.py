@@ -30,7 +30,8 @@ def test_data_profiler_with_iris(iris_dataframe):
         "field names",
         "data type",
         "field completion",
-    ], "DataFrame should have columns: 'field names', 'data type', 'field completion'"
+        "examples",
+    ], "DataFrame should have columns: 'field names', 'data type', 'field completion', 'examples'"
 
     # Check the field names
     assert list(result["field names"]) == expected_fields, f"Expected fields {expected_fields} but got {list(result['field names'])}"
