@@ -1,30 +1,30 @@
-import numpy as np
 import pandas as pd
 import streamlit as st
 
 from syml.diagnostool.calculator import data_profiler
 from syml.diagnostool.calculator import variability_calculator
+from syml.diagnostool.utils import hist_maker
+from syml.interract.page_class import BasePageElement
 
 
-class FieldInspector:
+class FieldInspector(BasePageElement):
     def __init__(
         self,
+        data=None,
+        name="FieldInspector",
     ):
-        pass
+        self.name = name
+        self.data = data
+        super().__init__()
 
-    def display(self, data: pd.DataFrame):
-        st.divider()
-        st.header("Field Inspector :microscope:")
-
-        self.introduction()
-        # Display basic information (type, completion) about the different fields in the table.
-        df = data_profiler(data)
-        self.basic_summary(profiled_data=df)
-        self.advanced_analysis(data=data)
+    def setup(self):
+        self.profiled_data = data_profiler(self.data)
+        self.actions += [self.basic_summary, self.advanced_analysis]
 
     def introduction(self):
+        st.header("Field Inspector :microscope:")
         st.markdown("""
-                    The **Field Inspector** :mag: will help you understand your data on a technical level.
+                    The **Field Inspector** :microscope: will help you understand your data on a technical level.
                     The goal is to provide you with information about the type, the completion, the variability and
                     other characteristics that will help you diagnose the quality of your data.
 
@@ -34,14 +34,16 @@ class FieldInspector:
                     Then, with the help of **:orange[ADA]** (Advanced Data Analyst) you will get a deep comprehension of relationships and patterns in your data.
                     """)
 
-    def basic_summary(self, profiled_data: pd.DataFrame):
+    def basic_summary(self):
         st.subheader("Basic summary :mag:")
         st.markdown("""The following table contains a basic summary about your data.
                     You'll see the field completion, the detected data type and the field name.
                     """)
 
+        df = self.profiled_data
+
         st.data_editor(
-            profiled_data,
+            df,
             hide_index=True,
             column_config={
                 "field names": st.column_config.TextColumn(
@@ -59,10 +61,14 @@ class FieldInspector:
                     min_value=0,
                     max_value=100,
                 ),
+                "examples": st.column_config.ListColumn(
+                    "examples",
+                ),
             },
         )
 
-    def advanced_analysis(self, data):
+    def advanced_analysis(self):
+        data = self.data
         st.subheader("Advanced Analysis :microscope:")
         st.markdown("""The Advanced Analysis section helps you diagnose problems in your raw data.
                     For example, it can happen that you have outliers in your continuous data, or you
@@ -78,12 +84,7 @@ class FieldInspector:
                         Each field has been normalized by its mean, allowing to compare the spread and the min-max values.
                         """)
 
-            data_hist = {"values": []}
-            for field in variability["continuous"].columns:
-                hist, bin_edges = np.histogram(data[field].tolist(), bins=20)
-                data_hist["values"].append(hist)
-            data_hist = pd.DataFrame(data_hist, index=variability["continuous"].columns)
-
+            data_hist = hist_maker(data[variability["continuous"].columns])
             table = pd.concat([variability["continuous"].T, data_hist], axis=1)
 
             st.data_editor(

@@ -3,6 +3,7 @@ import pandas as pd
 from .utils import categorical_variability
 from .utils import classify_columns
 from .utils import continuous_variability
+from .utils import sampler
 
 
 def data_profiler(data):
@@ -24,8 +25,10 @@ def data_profiler(data):
     field_data = pd.Series(data.columns, name="field names")
     field_type = classify_columns(data).reset_index(drop=True)
     fillage_data = 100 * pd.Series([data[col].notna().sum() / len(data) for col in field_data], name="field completion")
+    examples = data.apply(sampler, args=(10,), axis=0).T.reset_index(drop=True)
+    examples.columns = ["examples"]
 
-    df = pd.concat([field_data, field_type, fillage_data], axis=1)
+    df = pd.concat([field_data, field_type, fillage_data, examples], axis=1)
 
     return df
 

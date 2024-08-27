@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 
 
@@ -50,3 +51,17 @@ def categorical_variability_serie(s: pd.Series):
     val_occurrence = s.value_counts()
     var = val_occurrence.describe()
     return var
+
+
+def hist_maker(df: pd.DataFrame):
+    data_hist = {"values": []}
+    for field in df:
+        hist, bin_edges = np.histogram(df[field].tolist(), bins=20)
+        data_hist["values"].append(hist)
+    data_hist = pd.DataFrame(data_hist, index=df.columns)
+
+    return data_hist
+
+
+def sampler(col, size):
+    return [col.sample(size).reset_index(drop=True).tolist()]
