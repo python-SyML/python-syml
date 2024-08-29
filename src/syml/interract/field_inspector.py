@@ -42,17 +42,23 @@ class FieldInspector(BasePageElement):
 
         df = self.profiled_data
 
-        st.data_editor(
+        edited_df = st.data_editor(
             df,
             hide_index=True,
             column_config={
                 "field names": st.column_config.TextColumn(
                     "field names",
-                    disabled=True,
                 ),
-                "data type": st.column_config.TextColumn(
+                "data type": st.column_config.SelectboxColumn(
                     "data type",
                     help="Data is either Continuous (length, amount of money, ...) or Categorical (gender, name of a color, ...)",
+                    options=[
+                        "continuous",
+                        "categorical",
+                        "mixed",
+                        "unknown",
+                    ],
+                    required=True,
                 ),
                 "field completion": st.column_config.ProgressColumn(
                     "field completion",
@@ -65,23 +71,28 @@ class FieldInspector(BasePageElement):
                     "examples",
                 ),
             },
+            disabled=["examples", "field completion", "field names"],
         )
+
+        self.edited_df = edited_df
 
     def advanced_analysis(self):
         data = self.data
+        classification = self.edited_df[["field names", "data type"]].set_index("field names")
+
         st.subheader("Advanced Analysis :microscope:")
         st.markdown("""The Advanced Analysis section helps you diagnose problems in your raw data.
                     For example, it can happen that you have outliers in your continuous data, or you
                     could have for a categorical variable a very large number of labels due to typos.
                     """)
 
-        variability = variability_calculator(data)
+        variability = variability_calculator(data, classification=classification)
 
         if "continuous" in variability.keys():
             st.markdown("""
                         #### Continuous Variables
                         Continuous variables are analyzed below.
-                        Each field has been normalized by its mean, allowing to compare the spread and the min-max values.
+                        For each field, you have the mean, standard deviation, min-max values and a histogram.
                         """)
 
             data_hist = hist_maker(data[variability["continuous"].columns])
@@ -110,4 +121,4 @@ class FieldInspector(BasePageElement):
                         - min-max occurrence of label
                         """)
 
-            st.table(variability["categorical"])
+            st.dataframe(variability["categorical"])

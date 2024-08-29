@@ -17,9 +17,11 @@ def classify_columns(df: pd.DataFrame) -> dict:
     for col in df.columns:
         inferred_dtype = pd.api.types.infer_dtype(df[col], skipna=True)
 
-        if inferred_dtype in ["string", "unicode", "mixed-integer", "mixed", "mixed-integer-float", "integer", "categorical", "boolean"]:
+        if inferred_dtype in ["string", "unicode", "categorical", "boolean"]:
             classification[col] = "categorical"
-        elif inferred_dtype in ["floating", "decimal"]:
+        elif inferred_dtype in ["mixed-integer", "mixed", "mixed-integer-float"]:
+            classification[col] = "mixed"
+        elif inferred_dtype in ["floating", "decimal", "integer"]:
             classification[col] = "continuous"
         else:
             classification[col] = "unknown"  # For types that don't clearly fall into either category
@@ -42,7 +44,7 @@ def categorical_variability(df: pd.DataFrame):
 
 
 def continuous_variability(df: pd.DataFrame):
-    var = df / df.mean()
+    var = df
     var = var.describe().drop(["25%", "50%", "75%"])
     return var
 
@@ -64,4 +66,4 @@ def hist_maker(df: pd.DataFrame):
 
 
 def sampler(col, size):
-    return [col.sample(size).reset_index(drop=True).tolist()]
+    return [col.sample(size).reset_index(drop=True).astype(str).tolist()]
