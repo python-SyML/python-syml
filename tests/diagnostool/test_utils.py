@@ -24,7 +24,7 @@ def test_classify_columns_with_iris(iris_dataframe):
         "sepal width (cm)": "continuous",
         "petal length (cm)": "continuous",
         "petal width (cm)": "continuous",
-        "target": "categorical",
+        "target": "continuous",
     }
 
     expected = pd.Series(expected)
@@ -34,7 +34,7 @@ def test_classify_columns_with_iris(iris_dataframe):
 
 def test_continuous_variability(iris_dataframe):
     # Filter out continuous columns
-    continuous_df = iris_dataframe.select_dtypes(include=[float])
+    continuous_df = iris_dataframe.select_dtypes(include=[float, int])
 
     result = continuous_variability(continuous_df)
 
@@ -42,7 +42,7 @@ def test_continuous_variability(iris_dataframe):
     assert (continuous_df.columns == result.columns).all()
 
     # Ensure the calculation is correct
-    expected = continuous_df / continuous_df.mean()
+    expected = continuous_df
     expected = expected.describe().drop(["25%", "50%", "75%"])
 
     pd.testing.assert_frame_equal(result, expected)

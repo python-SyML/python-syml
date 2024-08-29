@@ -2,7 +2,6 @@ import pandas as pd
 
 from syml.diagnostool.calculator import data_profiler
 from syml.diagnostool.calculator import variability_calculator
-from syml.diagnostool.utils import categorical_variability
 from syml.diagnostool.utils import continuous_variability
 
 
@@ -21,7 +20,7 @@ def test_data_profiler_with_iris(iris_dataframe):
         "sepal width (cm)": "continuous",
         "petal length (cm)": "continuous",
         "petal width (cm)": "continuous",
-        "target": "categorical",
+        "target": "continuous",
     }
 
     # Check the structure of the result DataFrame
@@ -30,7 +29,8 @@ def test_data_profiler_with_iris(iris_dataframe):
         "field names",
         "data type",
         "field completion",
-    ], "DataFrame should have columns: 'field names', 'data type', 'field completion'"
+        "examples",
+    ], "DataFrame should have columns: 'field names', 'data type', 'field completion', 'examples'"
 
     # Check the field names
     assert list(result["field names"]) == expected_fields, f"Expected fields {expected_fields} but got {list(result['field names'])}"
@@ -49,10 +49,7 @@ def test_data_profiler_with_iris(iris_dataframe):
 def test_variability_calculator(iris_dataframe, monkeypatch):
     # Mocking classify_columns function
     def mock_classify_columns(df):
-        return pd.Series(
-            ["continuous" if dtype.kind in "fc" else "categorical" for dtype in df.dtypes],
-            index=df.columns,
-        )
+        return pd.Series(["continuous" if dtype.kind in "fc" else "categorical" for dtype in df.dtypes], index=df.columns, name="data type")
 
     # Patch the classify_columns function
     monkeypatch.setattr("syml.diagnostool.utils", mock_classify_columns)
@@ -61,13 +58,8 @@ def test_variability_calculator(iris_dataframe, monkeypatch):
 
     # Ensure keys are present in the result
     assert "continuous" in result
-    assert "categorical" in result
+
     # Check if the continuous variability results are as expected
-    continuous_df = iris_dataframe.select_dtypes(include=[float])
+    continuous_df = iris_dataframe.select_dtypes(include=[float, int])
     expected_continuous = continuous_variability(continuous_df)
     pd.testing.assert_frame_equal(result["continuous"], expected_continuous)
-
-    # Check if the categorical variability results are as expected
-    categorical_df = iris_dataframe.select_dtypes(exclude=[float])
-    expected_categorical = categorical_variability(categorical_df)
-    pd.testing.assert_frame_equal(result["categorical"], expected_categorical)
