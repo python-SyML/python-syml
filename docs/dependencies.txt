@@ -4,4 +4,4 @@ pygwalker
 streamlit>=1.37.0
 pandas
 scikit-learn>=1.0
-plotly
+plotly>=5.0.0
