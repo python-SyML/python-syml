@@ -129,4 +129,13 @@ class AdvancedAnalysis(BasePageElement):
                         - min-max occurrence of label
                         """)
 
-            st.dataframe(variability["categorical"])
+            st.dataframe(
+                variability["categorical"],
+                column_config={
+                    "mean": st.column_config.NumberColumn("average frequency of occurrence of a label", format="%.2e"),
+                    "count": st.column_config.NumberColumn("number of unique labels"),
+                    "min": st.column_config.NumberColumn("minimum frequency of occurrence of a label", format="%.2e"),
+                    "max": st.column_config.NumberColumn("maximum frequency of occurrence of a label", format="%.2e"),
+                    "std": st.column_config.NumberColumn("standard deviation of the frequency of occurrence of a label", format="%.2e"),
+                },
+            )
