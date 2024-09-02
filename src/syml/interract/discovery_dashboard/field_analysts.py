@@ -7,39 +7,30 @@ from syml.diagnostool.utils import hist_maker
 from syml.interract.page_class import BasePageElement
 
 
-class FieldInspector(BasePageElement):
+class BasicAnalysis(BasePageElement):
     def __init__(
         self,
         data=None,
-        name="FieldInspector",
+        name="BasicAnalysis",
     ):
         self.name = name
         self.data = data
         super().__init__()
 
-    def setup(self):
-        self.profiled_data = data_profiler(self.data)
-        self.actions += [self.basic_summary, self.advanced_analysis]
+    def classification(self):
+        return self.edited_df[["field names", "data type"]].set_index("field names")
 
     def introduction(self):
-        st.header("Field Inspector :microscope:")
-        st.markdown("""
-                    The **Field Inspector** :microscope: will help you understand your data on a technical level.
-                    The goal is to provide you with information about the type, the completion, the variability and
-                    other characteristics that will help you diagnose the quality of your data.
-
-                    Once you'll have a better understanding of your raw data, **:blue[QIA]** (Quality Improvement Assistant) will help you boost your
-                    data coverage, quality and uniformity.
-
-                    Then, with the help of **:orange[ADA]** (Advanced Data Analyst) you will get a deep comprehension of relationships and patterns in your data.
-                    """)
-
-    def basic_summary(self):
         st.subheader("Basic summary :mag:")
         st.markdown("""The following table contains a basic summary about your data.
                     You'll see the field completion, the detected data type and the field name.
                     """)
 
+    def setup(self):
+        self.profiled_data = data_profiler(self.data)
+        self.actions += [self.analysis]
+
+    def analysis(self):
         df = self.profiled_data
 
         edited_df = st.data_editor(
@@ -76,17 +67,34 @@ class FieldInspector(BasePageElement):
 
         self.edited_df = edited_df
 
-    def advanced_analysis(self):
-        data = self.data
-        classification = self.edited_df[["field names", "data type"]].set_index("field names")
 
+class AdvancedAnalysis(BasePageElement):
+    def __init__(
+        self,
+        name="AdvancedAnalysis",
+        data=None,
+        classification=None,
+    ):
+        self.data = data
+        self.classification = classification
+        self.name = name
+        super().__init__()
+
+    def introduction(self):
         st.subheader("Advanced Analysis :microscope:")
         st.markdown("""The Advanced Analysis section helps you diagnose problems in your raw data.
                     For example, it can happen that you have outliers in your continuous data, or you
                     could have for a categorical variable a very large number of labels due to typos.
                     """)
 
-        variability = variability_calculator(data, classification=classification)
+    def setup(self):
+        self.actions += [self.analysis]
+
+    def analysis(self):
+        data = self.data
+        classification = self.classification
+
+        variability = variability_calculator(data, classification=classification())
 
         if "continuous" in variability.keys():
             st.markdown("""

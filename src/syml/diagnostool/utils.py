@@ -40,7 +40,7 @@ def categorical_variability(df: pd.DataFrame):
             "max": "maximum number of occurrences of a label",
         }
     )
-    return var
+    return var.round(0)
 
 
 def continuous_variability(df: pd.DataFrame):

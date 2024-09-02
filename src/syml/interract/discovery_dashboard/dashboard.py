@@ -1,9 +1,9 @@
 import streamlit as st
 
-from syml.interract.field_inspector import FieldInspector
 from syml.interract.page_class import BasePageElement
+from syml.interract.utils import read_data
 
-from .utils import read_data
+from .field_inspector import FieldInspector
 
 
 class Dashboard(BasePageElement):
