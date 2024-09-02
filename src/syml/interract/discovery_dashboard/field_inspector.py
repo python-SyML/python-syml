@@ -21,7 +21,7 @@ class FieldInspector(BasePageElement):
         self.setup_child(child=self.setup_advanced_analysis())
 
     def introduction(self):
-        st.header("Field Inspector :microscope:")
+        st.header("II. Field Inspector :microscope:")
         st.markdown("""
                     The **Field Inspector** :microscope: will help you understand your data on a technical level.
                     The goal is to provide you with information about the type, the completion, the variability and

@@ -1,4 +1,5 @@
 import pandas as pd
+import plotly.express as px
 import streamlit as st
 
 from syml.diagnostool.calculator import data_profiler
@@ -21,7 +22,7 @@ class BasicAnalysis(BasePageElement):
         return self.edited_df[["field names", "data type"]].set_index("field names")
 
     def introduction(self):
-        st.subheader("Basic summary :mag:")
+        st.subheader("II. A. Basic summary :mag:")
         st.markdown("""The following table contains a basic summary about your data.
                     You'll see the field completion, the detected data type and the field name.
                     """)
@@ -81,7 +82,7 @@ class AdvancedAnalysis(BasePageElement):
         super().__init__()
 
     def introduction(self):
-        st.subheader("Advanced Analysis :microscope:")
+        st.subheader("II. B. Advanced Analysis :microscope:")
         st.markdown("""The Advanced Analysis section helps you diagnose problems in your raw data.
                     For example, it can happen that you have outliers in your continuous data, or you
                     could have for a categorical variable a very large number of labels due to typos.
@@ -125,8 +126,9 @@ class AdvancedAnalysis(BasePageElement):
                         Categorical variables are analyzed below.
                         For each field the occurrence of each unique label has been counted, then a few statistics are computed :
                         - number of distinct labels
-                        - average occurrence of a label
-                        - min-max occurrence of label
+                        - average frequency of occurrence a label
+                        - min-max frequencies of occurrence of a label
+                        - standard deviation of the frequency of occurrence a label
                         """)
 
             st.dataframe(
@@ -139,3 +141,15 @@ class AdvancedAnalysis(BasePageElement):
                     "std": st.column_config.NumberColumn("standard deviation of the frequency of occurrence of a label", format="%.2e"),
                 },
             )
+
+            st.markdown("""
+                        ##### Labels inspection
+                        Chose a field and inspect the labels in this field.
+                        You'll see frequency histograms of labels, labels proximity and other useful information to help you identify uniformity issues in your data.
+                        """)
+
+            to_inspect = st.selectbox("Field to inspect :mag:", options=variability["categorical"].index)
+
+            hist = px.histogram(self.data[to_inspect], histnorm="percent").update_xaxes(categoryorder="total descending")
+
+            st.plotly_chart(hist)

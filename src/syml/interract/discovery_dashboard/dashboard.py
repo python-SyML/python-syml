@@ -32,7 +32,7 @@ class Dashboard(BasePageElement):
 
     def data_explorer(self):
         st.divider()
-        st.header("Dataset overview")
+        st.header("I. Dataset overview")
         checkbox = st.checkbox("Display Raw Dataset")
 
         if checkbox:
