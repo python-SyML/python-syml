@@ -23,8 +23,12 @@ class BasicAnalysis(BasePageElement):
 
     def introduction(self):
         st.subheader("II. A. Basic summary :mag:")
-        st.markdown("""The following table contains a basic summary about your data.
-                    You'll see the field completion, the detected data type and the field name.
+        st.markdown("""The following table contains a basic information about your data.
+                    You'll see the following :
+                    - field name
+                    - field completion
+                    - detected data type (please correct it by clicking on the value in case it is incorrect)
+                    - sample of data
                     """)
 
     def setup(self):
@@ -84,8 +88,10 @@ class AdvancedAnalysis(BasePageElement):
     def introduction(self):
         st.subheader("II. B. Advanced Analysis :microscope:")
         st.markdown("""The Advanced Analysis section helps you diagnose problems in your raw data.
-                    For example, it can happen that you have outliers in your continuous data, or you
-                    could have for a categorical variable a very large number of labels due to typos.
+                    The Advanced Analysis displays statistics about each field, and provides
+                    histograms of the distribution of each field. That way, in the case of continuous data,
+                    you may detect unusual distributions or in the case of categorical data, a very
+                    high number of distinct labels, both suggesting a hidden quality issue.
                     """)
 
     def setup(self):
@@ -119,6 +125,17 @@ class AdvancedAnalysis(BasePageElement):
                 hide_index=False,
                 disabled=True,
             )
+
+            st.markdown("""
+                        ##### Values inspection
+                        Chose a field and inspect the distribution of the values in this field.
+                        """)
+
+            to_inspect = st.selectbox("Field to inspect :mag:", options=table.index)
+
+            hist = px.histogram(self.data[to_inspect], histnorm="percent").update_xaxes(categoryorder="total descending")
+
+            st.plotly_chart(hist)
 
         if "categorical" in variability.keys():
             st.markdown("""
