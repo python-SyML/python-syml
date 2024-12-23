@@ -99,9 +99,9 @@ class AdvancedAnalysis(BasePageElement):
 
     def analysis(self):
         data = self.data
-        classification = self.classification
+        classification = self.classification()
 
-        variability = variability_calculator(data, classification=classification())
+        variability = variability_calculator(data, classification=classification)
 
         if "continuous" in variability.keys():
             st.markdown("""
@@ -148,14 +148,21 @@ class AdvancedAnalysis(BasePageElement):
                         - standard deviation of the frequency of occurrence a label
                         """)
 
+            table = variability["categorical"]
+            data_categ = data[classification[classification["data type"] == "categorical"].index].astype("str")
+            labels = data_categ.apply(pd.unique, axis=0).to_frame()
+            labels.columns = ["labels"]
+            table = table.join(labels)
+
             st.dataframe(
-                variability["categorical"],
+                table,
                 column_config={
                     "mean": st.column_config.NumberColumn("average frequency of occurrence of a label", format="%.2e"),
                     "count": st.column_config.NumberColumn("number of unique labels"),
                     "min": st.column_config.NumberColumn("minimum frequency of occurrence of a label", format="%.2e"),
                     "max": st.column_config.NumberColumn("maximum frequency of occurrence of a label", format="%.2e"),
                     "std": st.column_config.NumberColumn("standard deviation of the frequency of occurrence of a label", format="%.2e"),
+                    "labels": st.column_config.ListColumn("labels"),
                 },
             )
 

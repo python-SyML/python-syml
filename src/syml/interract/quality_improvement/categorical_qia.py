@@ -17,7 +17,7 @@ class CategoricalQIA(BasePageElement):
         pass
 
     def introduction(self):
-        st.header("I. Categorical Quality Improvement Assistant")
+        st.subheader("I. Categorical Quality Improvement Assistant")
 
         st.markdown("""
                     The C-QIA aims to help you setup robust methods to
