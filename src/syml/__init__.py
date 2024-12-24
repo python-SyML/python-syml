@@ -1,4 +1,4 @@
-__version__ = "0.4.7"
+__version__ = "0.4.8"
 
 from syml.interract.discovery_dashboard.dashboard import Dashboard
 
