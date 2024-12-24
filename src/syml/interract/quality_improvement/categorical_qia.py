@@ -2,6 +2,8 @@ import streamlit as st
 
 from syml.interract.page_class import BasePageElement
 
+from .categorical_components.label_grouping import LabelGrouping
+
 
 class CategoricalQIA(BasePageElement):
     def __init__(
@@ -14,10 +16,10 @@ class CategoricalQIA(BasePageElement):
         super().__init__()
 
     def setup(self):
-        pass
+        self.setup_child(LabelGrouping(self.data))
 
     def introduction(self):
-        st.subheader("I. Categorical Quality Improvement Assistant")
+        st.header("I. Categorical Quality Improvement Assistant")
 
         st.markdown("""
                     The C-QIA aims to help you setup robust methods to
@@ -26,6 +28,7 @@ class CategoricalQIA(BasePageElement):
                     to automatically correct these issues.
 
                     The current main components of C-QIA are :
+                    - label identification
                     - label typo correction
                     - label grouping
                     - missing label extraction

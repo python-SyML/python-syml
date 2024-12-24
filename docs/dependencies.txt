@@ -5,3 +5,7 @@ streamlit>=1.37.0
 pandas
 scikit-learn>=1.0
 plotly>=5.0.0
+spacy
+sentence-transformers
+jupyter
+notebook

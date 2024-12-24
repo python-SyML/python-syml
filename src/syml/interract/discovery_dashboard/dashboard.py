@@ -8,12 +8,12 @@ from .field_inspector import FieldInspector
 
 class Dashboard(BasePageElement):
     def __init__(self, path, nrows=None) -> None:
-        self.dataset = read_data(path, nrows)
+        self.data = read_data(path, nrows)
         super().__init__()
 
     def setup(self):
         self.actions.append(self.data_explorer)
-        self.setup_child(FieldInspector(self.dataset))
+        self.setup_child(FieldInspector(self.data))
 
     def introduction(self):
         st.title("Data Discovery Dashboard :telescope:")
@@ -62,7 +62,7 @@ class Dashboard(BasePageElement):
     def data_explorer(self):
         st.divider()
         st.header("I. Dataset overview")
-        checkbox = st.checkbox("Display Raw Dataset")
+        checkbox = st.checkbox("Display Raw dataset")
 
         if checkbox:
-            st.dataframe(self.dataset)
+            st.dataframe(self.data)

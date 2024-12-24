@@ -8,11 +8,12 @@ from .categorical_qia import CategoricalQIA
 
 class Report(BasePageElement):
     def __init__(self, path, nrows=None) -> None:
-        self.dataset = read_data(path, nrows)
+        self.data = read_data(path, nrows)
+        # TODO: Add a way to get the classification of the data
         super().__init__()
 
     def setup(self):
-        self.setup_child(CategoricalQIA(self.dataset))
+        self.setup_child(CategoricalQIA(self.data))
 
     def introduction(self):
         st.title("Quality Improvement Assistant 🧑🏼‍🔬")
@@ -29,3 +30,8 @@ class Report(BasePageElement):
                     - anormal extreme numerical data
                     - ... and many other !
                     """)
+
+    def setup_categorical_qia(self, data, classification):
+        # data_categ = data[classification["data type"] == "categorical"]
+        # return CategoricalQIA(data_categ)
+        pass
