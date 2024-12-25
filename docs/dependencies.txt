@@ -9,3 +9,5 @@ spacy
 sentence-transformers
 jupyter
 notebook
+pyodbc
+sqlalchemy

@@ -1,54 +1,48 @@
+import sqlite3
+
 import pandas as pd
-from sqlalchemy import Column
-from sqlalchemy import Float
-from sqlalchemy import Integer
-from sqlalchemy import String
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+
+from .utils import reformat_string
 
 
 class SQLDatabase:
-    def __init__(self, csv_file="", db_uri="sqlite:///../data/database.db"):
-        self.engine = create_engine(db_uri)
-        self.csv_file = csv_file
-        self.Session = sessionmaker(bind=self.engine)
-        self.session = self.Session()
-        self.Base = declarative_base()
+    def __init__(self, db_path="../data/database.db"):
+        self.db_path = db_path
+        self.tables = {}
+        self.connection = sqlite3.connect(self.db_path)
+        self.cursor = self.connection.cursor()
 
-    def read_csv(self):
-        self.df = pd.read_csv(self.csv_file)
+    def read_csv(self, csv_file):
+        self.df = pd.read_csv(csv_file).drop(columns=["Unnamed: 0"])
 
-    def create_table_schema(self):
-        class DynamicTable(self.Base):
-            __tablename__ = "dynamic_table"
-            id = Column(Integer, primary_key=True, autoincrement=True)
+    def create_table_from_dataframe(self, table_name, df):
+        self.tables[table_name] = {}
+        col_type = ", ".join([f"{reformat_string(col)} {self._map_dtype(df[col].dtype)}" for col in df.columns])
+        self.tables[table_name]["sql_columns"] = [reformat_string(col) for col in df.columns]
+        self.tables[table_name]["n_columns"] = len(df.columns)
+        create_table_query = f"CREATE TABLE IF NOT EXISTS {table_name} ({col_type})"
+        self.cursor.execute(create_table_query)
+        self.connection.commit()
 
-        for column in self.df.columns:
-            col_type = self.df[column].dtype
-            if col_type == "int64":
-                col_type = Integer
-            elif col_type == "float64":
-                col_type = Float
-            else:
-                col_type = String
-            setattr(DynamicTable, column, Column(col_type))
+    def insert_data_from_dataframe(self, table_name, df):
+        placeholder = ["?"] * self.tables[table_name]["n_columns"]
+        insert_query = f"INSERT INTO {table_name} VALUES({', '.join(placeholder)})"
+        data_tuple = [tuple(row) for row in df.itertuples(index=False, name=None)]
+        self.cursor.executemany(insert_query, data_tuple)
+        self.connection.commit()
 
-        self.DynamicTable = DynamicTable
-        self.Base.metadata.create_all(self.engine)
+    def _map_dtype(self, dtype):
+        if pd.api.types.is_integer_dtype(dtype):
+            return "INTEGER"
+        elif pd.api.types.is_float_dtype(dtype):
+            return "REAL"
+        else:
+            return "TEXT"
 
-    def insert_data(self):
-        for _index, row in self.df.iterrows():
-            data = {column: row[column] for column in self.df.columns}
-            new_record = self.DynamicTable(**data)
-            self.session.add(new_record)
-        self.session.commit()
+    def generate_database(self, csv_file="", table_name="dataset"):
+        self.read_csv(csv_file)
+        self.create_table_from_dataframe(table_name, self.df)
+        self.insert_data_from_dataframe(table_name, self.df)
 
-    def close_session(self):
-        self.session.close()
-
-    def generate_database(self):
-        self.read_csv()
-        self.create_table_schema()
-        self.insert_data()
-        self.close_session()
+    def close_connection(self):
+        self.connection.close()
