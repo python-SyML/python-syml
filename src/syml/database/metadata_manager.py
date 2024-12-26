@@ -1,6 +1,5 @@
 import json
-
-import Path
+from pathlib import Path
 
 
 class JSONFileHandler:

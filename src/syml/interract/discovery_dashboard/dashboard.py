@@ -1,19 +1,15 @@
 import streamlit as st
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 
 from syml.interract.page_class import BasePageElement
 
+from ...database.sql_database import SQLDatabase
 from .field_inspector import FieldInspector
 
 
 class Dashboard(BasePageElement):
-    def __init__(self, path, nrows=None) -> None:
-        db_url = "../data/database.db"  # Relative path
-        engine = create_engine(db_url)
-        Session = sessionmaker(bind=engine)
-        session = Session()
-        self.data = session.execute("SELECT * FROM dataset")
+    def __init__(self, db_path="../python-syml/data/database.db") -> None:
+        sql_db = SQLDatabase(db_path=db_path, metadata_path="../python-syml/config/metadata.json")
+        self.data = sql_db.query("SELECT * FROM dataset")
         super().__init__()
 
     def setup(self):

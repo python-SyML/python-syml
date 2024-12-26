@@ -31,6 +31,7 @@ class SQLDatabase:
         self.tables[table_name]["sql_columns"] = [reformat_string(col) for col in df.columns]
         self.tables[table_name]["column_names"] = df.columns.tolist()
         self.tables[table_name]["n_columns"] = len(df.columns)
+        self.cursor.execute(f"DROP TABLE IF EXISTS {table_name}")
         create_table_query = f"CREATE TABLE IF NOT EXISTS {table_name} ({col_type})"
         self.cursor.execute(create_table_query)
         self.connection.commit()
