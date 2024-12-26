@@ -1,14 +1,14 @@
 import streamlit as st
 
 from syml.interract.page_class import BasePageElement
-from syml.interract.utils import read_data
 
 from .categorical_qia import CategoricalQIA
 
 
 class Report(BasePageElement):
-    def __init__(self, path, nrows=None) -> None:
-        self.data = read_data(path, nrows)
+    def __init__(self, db, nrows=None) -> None:
+        self.db = db
+        self.data = self.db.query("SELECT * FROM dataset")
         # TODO: Add a way to get the classification of the data
         super().__init__()
 
@@ -31,7 +31,8 @@ class Report(BasePageElement):
                     - ... and many other !
                     """)
 
-    def setup_categorical_qia(self, data, classification):
-        # data_categ = data[classification["data type"] == "categorical"]
-        # return CategoricalQIA(data_categ)
-        pass
+    def setup_categorical_qia(self, data):
+        classification = self.db.query("SELECT field_names, data_type FROM basic_analysis")
+        classification = classification.set_index("field_names")
+        data_categ = data[classification["data type"] == "categorical"]
+        return CategoricalQIA(data_categ)

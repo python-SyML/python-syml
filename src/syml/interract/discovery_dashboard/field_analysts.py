@@ -11,14 +11,18 @@ from syml.interract.page_class import BasePageElement
 class BasicAnalysis(BasePageElement):
     def __init__(
         self,
-        data=None,
+        db=None,
         name="BasicAnalysis",
     ):
         self.name = name
-        self.data = data
+        self.db = db
+        self.data = self.db.query("SELECT * FROM dataset")
         super().__init__()
 
     def classification(self):
+        df_basic_analysis = self.edited_df.drop(columns=["examples"])
+        self.db.create_table_from_dataframe("basic_analysis", df_basic_analysis)
+        self.db.insert_data_from_dataframe("basic_analysis", df_basic_analysis)
         return self.edited_df[["field names", "data type"]].set_index("field names")
 
     def introduction(self):

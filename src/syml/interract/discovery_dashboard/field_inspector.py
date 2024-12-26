@@ -9,15 +9,16 @@ from .field_analysts import BasicAnalysis
 class FieldInspector(BasePageElement):
     def __init__(
         self,
-        data=None,
+        db=None,
         name="FieldInspector",
     ):
         self.name = name
-        self.data = data
+        self.db = db
+        self.data = self.data = self.db.query("SELECT * FROM dataset")
         super().__init__()
 
     def setup(self):
-        self.setup_child(child=BasicAnalysis(data=self.data))
+        self.setup_child(child=BasicAnalysis(db=self.db))
         self.setup_child(child=self.setup_advanced_analysis())
 
     def introduction(self):

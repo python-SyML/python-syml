@@ -9,5 +9,5 @@ if __name__ == "__page__":
     db = SQLDatabase(db_path="../python-syml/data/database.db", metadata_path="../python-syml/config/metadata.json")
     csv_file = "../python-syml/data/dataset.csv"
     _ = db.generate_database(csv_file=csv_file, table_name="dataset")
-    dash = Dashboard(db.db_path)
+    dash = Dashboard(db)
     dash.display()

@@ -2,19 +2,18 @@ import streamlit as st
 
 from syml.interract.page_class import BasePageElement
 
-from ...database.sql_database import SQLDatabase
 from .field_inspector import FieldInspector
 
 
 class Dashboard(BasePageElement):
-    def __init__(self, db_path="../python-syml/data/database.db") -> None:
-        sql_db = SQLDatabase(db_path=db_path, metadata_path="../python-syml/config/metadata.json")
-        self.data = sql_db.query("SELECT * FROM dataset")
+    def __init__(self, db) -> None:
+        self.db = db
+        self.data = self.db.query("SELECT * FROM dataset")
         super().__init__()
 
     def setup(self):
         self.actions.append(self.data_explorer)
-        self.setup_child(FieldInspector(self.data))
+        self.setup_child(FieldInspector(self.db))
 
     def introduction(self):
         st.title("Data Discovery Dashboard :telescope:")
