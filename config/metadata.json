@@ -1,0 +1,37 @@
+{
+    "dataset": {
+        "sql_columns": [
+            "age",
+            "workclass",
+            "fnlwgt",
+            "education",
+            "education_num",
+            "marital_status",
+            "occupation",
+            "relationship",
+            "race",
+            "sex",
+            "capital_gain",
+            "capital_loss",
+            "hours_per_week",
+            "native_country"
+        ],
+        "column_names": [
+            "age",
+            "workclass",
+            "fnlwgt",
+            "education",
+            "education-num",
+            "marital-status",
+            "occupation",
+            "relationship",
+            "race",
+            "sex",
+            "capital-gain",
+            "capital-loss",
+            "hours-per-week",
+            "native-country"
+        ],
+        "n_columns": 14
+    }
+}

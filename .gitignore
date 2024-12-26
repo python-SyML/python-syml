@@ -78,3 +78,9 @@ docs/_build
 
 # data for testing
 data
+
+# secrets
+*secrets.toml
+
+# streamlit
+.streamlit

@@ -1,5 +1,5 @@
-__version__ = "0.4.1"
+__version__ = "0.5.2"
 
-from .interract.dashboard import Dashboard
+from syml.interract.discovery_dashboard.dashboard import Dashboard
 
 __all__ = ["Dashboard"]

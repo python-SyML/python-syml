@@ -59,10 +59,10 @@ def test_categorical_variability(iris_dataframe):
     result = categorical_variability(df)
 
     # Verify the structure of the result
-    assert "average number of occurrence of a label" in result.columns
-    assert "number of unique labels" in result.columns
-    assert "minimum number of occurrences of a label" in result.columns
-    assert "maximum number of occurrences of a label" in result.columns
+    assert "mean" in result.columns
+    assert "count" in result.columns
+    assert "min" in result.columns
+    assert "max" in result.columns
 
     # Additional checks can be performed based on the expected behavior
 

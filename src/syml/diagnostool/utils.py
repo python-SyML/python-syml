@@ -32,14 +32,6 @@ def classify_columns(df: pd.DataFrame) -> dict:
 def categorical_variability(df: pd.DataFrame):
     var = df.apply(categorical_variability_serie, axis=0)
     var = var.drop(["25%", "50%", "75%"]).T
-    var = var.rename(
-        columns={
-            "mean": "average number of occurrence of a label",
-            "count": "number of unique labels",
-            "min": "minimum number of occurrences of a label",
-            "max": "maximum number of occurrences of a label",
-        }
-    )
     return var
 
 
@@ -50,7 +42,7 @@ def continuous_variability(df: pd.DataFrame):
 
 
 def categorical_variability_serie(s: pd.Series):
-    val_occurrence = s.value_counts()
+    val_occurrence = s.value_counts(normalize=True)
     var = val_occurrence.describe()
     return var
 
