@@ -2,15 +2,25 @@ import sqlite3
 
 import pandas as pd
 
+from .metadata_manager import JSONFileHandler
+from .utils import find_table_name
 from .utils import reformat_string
 
 
 class SQLDatabase:
-    def __init__(self, db_path="../data/database.db"):
+    def __init__(self, db_path="../data/database.db", metadata_path="../config/metadata.json"):
         self.db_path = db_path
-        self.tables = {}
+        self.metadata_manager = JSONFileHandler(metadata_path)
         self.connection = sqlite3.connect(self.db_path)
         self.cursor = self.connection.cursor()
+        self.tables = self.init_tables()
+
+    def init_tables(self):
+        config = self.metadata_manager.read_json_file()
+        if config is None:
+            return {}
+        else:
+            return config
 
     def read_csv(self, csv_file):
         self.df = pd.read_csv(csv_file).drop(columns=["Unnamed: 0"])
@@ -19,6 +29,7 @@ class SQLDatabase:
         self.tables[table_name] = {}
         col_type = ", ".join([f"{reformat_string(col)} {self._map_dtype(df[col].dtype)}" for col in df.columns])
         self.tables[table_name]["sql_columns"] = [reformat_string(col) for col in df.columns]
+        self.tables[table_name]["column_names"] = df.columns.tolist()
         self.tables[table_name]["n_columns"] = len(df.columns)
         create_table_query = f"CREATE TABLE IF NOT EXISTS {table_name} ({col_type})"
         self.cursor.execute(create_table_query)
@@ -43,6 +54,12 @@ class SQLDatabase:
         self.read_csv(csv_file)
         self.create_table_from_dataframe(table_name, self.df)
         self.insert_data_from_dataframe(table_name, self.df)
+        self.metadata_manager.create_json_file(data=self.tables)
 
     def close_connection(self):
         self.connection.close()
+
+    def query(self, query):
+        self.cursor.execute(query)
+        table = find_table_name(query)
+        return pd.DataFrame(self.cursor.fetchall(), columns=self.tables[table]["column_names"])
