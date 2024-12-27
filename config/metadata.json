@@ -32,6 +32,40 @@
             "hours-per-week",
             "native-country"
         ],
+        "mapping_columns_sql_df": {
+            "age": "age",
+            "workclass": "workclass",
+            "fnlwgt": "fnlwgt",
+            "education": "education",
+            "education_num": "education-num",
+            "marital_status": "marital-status",
+            "occupation": "occupation",
+            "relationship": "relationship",
+            "race": "race",
+            "sex": "sex",
+            "capital_gain": "capital-gain",
+            "capital_loss": "capital-loss",
+            "hours_per_week": "hours-per-week",
+            "native_country": "native-country"
+        },
         "n_columns": 14
+    },
+    "basic_analysis": {
+        "sql_columns": [
+            "field_names",
+            "data_type",
+            "field_completion"
+        ],
+        "column_names": [
+            "field names",
+            "data type",
+            "field completion"
+        ],
+        "mapping_columns_sql_df": {
+            "field_names": "field names",
+            "data_type": "data type",
+            "field_completion": "field completion"
+        },
+        "n_columns": 3
     }
 }

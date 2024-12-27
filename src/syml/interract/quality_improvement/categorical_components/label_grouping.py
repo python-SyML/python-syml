@@ -1,5 +1,7 @@
 import streamlit as st
 
+from syml.diagnostool.semantic.label_clustering import LabelAnalysis
+from syml.diagnostool.semantic.utils import df_typo
 from syml.interract.page_class import BasePageElement
 
 
@@ -7,7 +9,6 @@ class LabelGrouping(BasePageElement):
     def __init__(self, data=None, name="Label Grouping"):
         self.name = name
         self.data = data
-
         super().__init__()
 
     def setup(self):
@@ -28,7 +29,24 @@ class LabelGrouping(BasePageElement):
                     """)
 
     def analysis(self):
-        # TODO: Implement the label grouping and correction logic here using the notebook
-        # data = self.data
-        # to_inspect = st.selectbox("Field to inspect :mag:", options=data)
-        pass
+        columns = self.data.columns
+        to_inspect = st.selectbox("Field to inspect :mag:", options=columns)
+        data = self.data[to_inspect].dropna().unique()
+
+        st.markdown("""
+                    If you want to simulate potential typos in your data in order to further be able to prevent those,
+                    activate the following setting. This will generate random typos in the labels. You can also
+                    select the number of typos per label you want to simulate.
+                    """)
+        on = st.toggle("Activate Typos Simulation ☢️")
+        if on:
+            st.markdown("""
+                        Chose the number of typos per label to simulate below :
+                        """)
+
+            n_typos = st.slider("Number of typos", 1, 20, step=1, value=5)
+            data = df_typo(data, n_typos=n_typos)
+
+        label_analysis = LabelAnalysis(labels=data, path="../python-syml/data/embeddings_{field_name}.pt", field_name=to_inspect)
+        fig = label_analysis.plot_umap()
+        st.plotly_chart(fig)

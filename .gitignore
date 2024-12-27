@@ -84,3 +84,7 @@ data
 
 # streamlit
 .streamlit
+
+# config
+config
+config/**
