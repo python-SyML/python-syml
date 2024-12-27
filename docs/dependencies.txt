@@ -11,7 +11,7 @@ jupyter
 notebook
 pyodbc
 sqlalchemy
-pytorch
+torch
 transformers
 sentence-transformers
 umap-learn
