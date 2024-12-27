@@ -50,7 +50,7 @@ def categorical_variability_serie(s: pd.Series):
 def hist_maker(df: pd.DataFrame):
     data_hist = {"values": []}
     for field in df:
-        hist, bin_edges = np.histogram(df[field].tolist(), bins=20)
+        hist, _ = np.histogram(df[field].tolist(), bins=20)
         data_hist["values"].append(hist)
     data_hist = pd.DataFrame(data_hist, index=df.columns)
 

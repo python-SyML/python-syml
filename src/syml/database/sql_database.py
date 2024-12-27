@@ -30,6 +30,9 @@ class SQLDatabase:
         col_type = ", ".join([f"{reformat_string(col)} {self._map_dtype(df[col].dtype)}" for col in df.columns])
         self.tables[table_name]["sql_columns"] = [reformat_string(col) for col in df.columns]
         self.tables[table_name]["column_names"] = df.columns.tolist()
+        self.tables[table_name]["mapping_columns_sql_df"] = dict(
+            zip(self.tables[table_name]["sql_columns"], self.tables[table_name]["column_names"])
+        )
         self.tables[table_name]["n_columns"] = len(df.columns)
         self.cursor.execute(f"DROP TABLE IF EXISTS {table_name}")
         create_table_query = f"CREATE TABLE IF NOT EXISTS {table_name} ({col_type})"
@@ -51,10 +54,12 @@ class SQLDatabase:
         else:
             return "TEXT"
 
-    def generate_database(self, csv_file="", table_name="dataset"):
-        self.read_csv(csv_file)
-        self.create_table_from_dataframe(table_name, self.df)
-        self.insert_data_from_dataframe(table_name, self.df)
+    def generate_database(self, csv_file="", df=None, table_name="dataset"):
+        if df is None:
+            self.read_csv(csv_file)
+            df = self.df
+        self.create_table_from_dataframe(table_name, df)
+        self.insert_data_from_dataframe(table_name, df)
         self.metadata_manager.create_json_file(data=self.tables)
 
     def close_connection(self):
@@ -63,4 +68,6 @@ class SQLDatabase:
     def query(self, query):
         self.cursor.execute(query)
         table = find_table_name(query)
-        return pd.DataFrame(self.cursor.fetchall(), columns=self.tables[table]["column_names"])
+        column_names_sql = [description[0] for description in self.cursor.description]
+        column_names = [self.tables[table]["mapping_columns_sql_df"][col] for col in column_names_sql]
+        return pd.DataFrame(self.cursor.fetchall(), columns=column_names)

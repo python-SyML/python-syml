@@ -13,7 +13,7 @@ class Report(BasePageElement):
         super().__init__()
 
     def setup(self):
-        self.setup_child(CategoricalQIA(self.data))
+        self.setup_child(self.setup_categorical_qia(self.data))
 
     def introduction(self):
         st.title("Quality Improvement Assistant 🧑🏼‍🔬")
@@ -33,6 +33,6 @@ class Report(BasePageElement):
 
     def setup_categorical_qia(self, data):
         classification = self.db.query("SELECT field_names, data_type FROM basic_analysis")
-        classification = classification.set_index("field_names")
-        data_categ = data[classification["data type"] == "categorical"]
+        classification = classification.set_index("field names")
+        data_categ = data[classification[classification["data type"] == "categorical"].index]
         return CategoricalQIA(data_categ)

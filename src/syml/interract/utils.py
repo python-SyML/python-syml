@@ -9,9 +9,9 @@ def read_data(path, nrows=None):
     else:
         df = pd.read_csv(path)
 
-    if type(nrows) is int:
+    if isinstance(nrows, int):
         df = df.head(int)
-    elif type(nrows) is float:
+    elif isinstance(nrows, float):
         df = df.head(int(float) * len(df))
     elif nrows is not None:
         raise TypeError("nrows must be an integer or float")
