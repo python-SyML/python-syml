@@ -5,12 +5,13 @@ from unittest.mock import Mock
 from unittest.mock import patch
 
 import pytest
-from src.syml.database.metadata_manager import JSONFileHandler
+
+from syml.database.metadata_manager import JSONFileHandler
 
 
 class TestJSONFileHandler(unittest.TestCase):
     def test_create_json_file_with_dictionary(self):
-        file_path = Path("/path/to/test/file.json")
+        file_path = Path("../python-syml/config/config_test.json")
         json_file_handler = JSONFileHandler(file_path)
         data = {"key1": "value1", "key2": "value2"}
 
@@ -20,7 +21,7 @@ class TestJSONFileHandler(unittest.TestCase):
             mock_open().write.assert_called_once_with(json.dumps(data, indent=4))
 
     def test_create_json_file_with_list(self):
-        file_path = Path("/path/to/test/file.json")
+        file_path = Path("../python-syml/config/config_test.json")
         json_file_handler = JSONFileHandler(file_path)
         data = ["item1", "item2", "item3"]
 
@@ -30,7 +31,7 @@ class TestJSONFileHandler(unittest.TestCase):
             mock_open().write.assert_called_once_with(json.dumps(data, indent=4))
 
     def test_create_json_file_with_nested_dict_and_list(self):
-        file_path = Path("/path/to/test/file.json")
+        file_path = Path("../python-syml/config/config_test.json")
         json_file_handler = JSONFileHandler(file_path)
         data = {
             "key1": "value1",
@@ -44,7 +45,7 @@ class TestJSONFileHandler(unittest.TestCase):
             mock_open().write.assert_called_once_with(json.dumps(data, indent=4))
 
     def test_create_json_file_with_empty_dictionary(self):
-        file_path = Path("/path/to/test/file.json")
+        file_path = Path("../python-syml/config/config_test.json")
         json_file_handler = JSONFileHandler(file_path)
         data = {}
 
@@ -54,7 +55,7 @@ class TestJSONFileHandler(unittest.TestCase):
             mock_open().write.assert_called_once_with(json.dumps(data, indent=4))
 
     def test_create_json_file_with_empty_list(self):
-        file_path = Path("/path/to/test/file.json")
+        file_path = Path("../python-syml/config/config_test.json")
         json_file_handler = JSONFileHandler(file_path)
         data = []
 
@@ -71,7 +72,7 @@ class TestJSONFileHandler(unittest.TestCase):
             json_file_handler.create_json_file({"key1": "value1"})
 
     def test_create_json_file_with_invalid_data_type(self):
-        file_path = Path("/path/to/test/file.json")
+        file_path = Path("../python-syml/config/config_test.json")
         json_file_handler = JSONFileHandler(file_path)
         invalid_data = "invalid_data"
 
