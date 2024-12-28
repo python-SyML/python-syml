@@ -1,4 +1,5 @@
 import json
+import warnings
 from pathlib import Path
 
 
@@ -12,6 +13,8 @@ class JSONFileHandler:
 
         :param data: Dictionary or list to be written to the JSON file.
         """
+        if not isinstance(data, (dict, list)):
+            raise TypeError("Data must be a dictionary or list.")
         with self.file_path.open("w") as file:
             json.dump(data, file, indent=4)
 
@@ -25,8 +28,11 @@ class JSONFileHandler:
             print(f"File '{self.file_path}' does not exist.")
             return None
 
-        with self.file_path.open() as file:
+        with self.file_path.open("r") as file:
             data = json.load(file)
+        if data in [[], {}]:
+            warnings.warn("JSON file is empty.", stacklevel=2)
+            return None
         return data
 
     def write_json_file(self, data):
