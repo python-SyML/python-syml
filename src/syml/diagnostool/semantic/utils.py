@@ -26,6 +26,9 @@ def generate_typo(text, typo_type):
     Returns:
     str: The string with the generated typo.
     """
+    if len(text) == 0:
+        return ""
+
     typo_text = text
 
     if typo_type == "insertion":
@@ -48,6 +51,8 @@ def generate_typo(text, typo_type):
         if len(typo_text) > 1:
             pos = random.randint(0, len(typo_text) - 2)  # noqa: S311
             typo_text = typo_text[:pos] + typo_text[pos + 1] + typo_text[pos] + typo_text[pos + 2 :]
+    else:
+        raise ValueError("Invalid typo type.")
 
     return typo_text
 
