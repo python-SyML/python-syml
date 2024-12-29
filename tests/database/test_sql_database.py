@@ -9,7 +9,7 @@ from syml.database.sql_database import SQLDatabase
 
 class TestInitTables(unittest.TestCase):
     def setUp(self):
-        self.sql_db = SQLDatabase(db_path="../python-syml/data/database.db", metadata_path="../python-syml/config/metadata.json")
+        self.sql_db = SQLDatabase(db_path="../python-syml/data/database_test.db", metadata_path="../python-syml/config/metadata_test.json")
 
     def test_init_tables_returns_empty_dict(self):
         with patch.object(self.sql_db, "metadata_manager", new_callable=MagicMock) as mock_object:
@@ -45,27 +45,16 @@ class TestCreateTableFromDataframe(unittest.TestCase):
 
 
 class TestQueryReturnsEmptyDataFrame(unittest.TestCase):
-    @patch("syml.database.sql_database.SQLDatabase.query")
-    def test_query_returns_empty_dataframe(self, mock_query):
-        mock_query.return_value = pd.DataFrame()
+    def test_query_returns_empty_dataframe(self):
         sql_db = SQLDatabase(db_path="../python-syml/data/database_test.db", metadata_path="../python-syml/config/metadata_test.json")
         result = sql_db.query("SELECT * FROM non_existing_table")
-        mock_query.assert_called_once_with("SELECT * FROM non_existing_table")
-        assert len(result) == 0
 
-    @patch("syml.database.sql_database.SQLDatabase.query")
-    def test_query_with_order_by_and_group_by(self, mock_query):
-        mock_query.return_value = pd.DataFrame()
-        sql_db = SQLDatabase(db_path="../python-syml/data/database_test.db", metadata_path="../python-syml/config/metadata_test.json")
-        query = "SELECT * FROM test_table GROUP BY col1 ORDER BY col2 DESC"
-        _ = sql_db.query(query)
-        mock_query.assert_called_once_with(query)
+        assert len(result) == 0
 
     def test_query_with_limit_and_offset(self):
         df = pd.DataFrame([[1, "a"], [2, "b"], [3, "c"]], columns=["id", "name"])
 
         sql_db = SQLDatabase(db_path="../python-syml/data/database_test.db", metadata_path="../python-syml/config/metadata_test.json")
-
         sql_db.generate_database(df=df, table_name="test_table")
 
         result = sql_db.query("SELECT * FROM test_table LIMIT 2 OFFSET 1")
