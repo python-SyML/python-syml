@@ -15,6 +15,10 @@ class JSONFileHandler:
         """
         if not isinstance(data, (dict, list)):
             raise TypeError("Data must be a dictionary or list.")
+        if not self.file_path.parent.exists():
+            if not self.file_path.parents[1].exists():
+                raise FileNotFoundError("File path does not exist.")
+            self.file_path.parent.mkdir(parents=True)
         with self.file_path.open("w") as file:
             json.dump(data, file, indent=4)
 
@@ -25,6 +29,11 @@ class JSONFileHandler:
         :return: Dictionary or list containing the data from the JSON file.
         """
         if not self.file_path.exists():
+            if not self.file_path.parent.exists():
+                if self.file_path.parents[1].exists():
+                    self.file_path.parent.mkdir(parents=True)
+                else:
+                    return None
             print(f"File '{self.file_path}' does not exist.")
             return None
 

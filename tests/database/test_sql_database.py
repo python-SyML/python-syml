@@ -9,7 +9,9 @@ from syml.database.sql_database import SQLDatabase
 
 class TestInitTables(unittest.TestCase):
     def setUp(self):
-        self.sql_db = SQLDatabase(db_path="../python-syml/data/database_test.db", metadata_path="../python-syml/config/metadata_test.json")
+        self.sql_db = SQLDatabase(
+            db_path="../python-syml/data/tests/database_test.db", metadata_path="../python-syml/config/tests/metadata_test.json"
+        )
 
     def test_init_tables_returns_empty_dict(self):
         with patch.object(self.sql_db, "metadata_manager", new_callable=MagicMock) as mock_object:
@@ -21,14 +23,16 @@ class TestInitTables(unittest.TestCase):
     @patch("syml.database.sql_database.JSONFileHandler.read_json_file")
     def test_init_tables_returns_same_dictionary(self, mock_read_json_file):
         mock_read_json_file.return_value = {"table1": {"columns": ["col1", "col2"]}, "table2": {"columns": ["col3", "col4"]}}
-        sql_db = SQLDatabase(db_path="../python-syml/data/database.db", metadata_path="../python-syml/config/metadata.json")
+        sql_db = SQLDatabase(db_path="../python-syml/data/tests/database.db", metadata_path="../python-syml/config/tests/metadata.json")
         result = sql_db.init_tables()
         assert result == {"table1": {"columns": ["col1", "col2"]}, "table2": {"columns": ["col3", "col4"]}}
 
 
 class TestCreateTableFromDataframe(unittest.TestCase):
     def test_create_table_from_dataframe_single_column(self):
-        sql_db = SQLDatabase(db_path="../python-syml/data/database_test.db", metadata_path="../python-syml/config/metadata_test.json")
+        sql_db = SQLDatabase(
+            db_path="../python-syml/data/tests/database_test.db", metadata_path="../python-syml/config/tests/metadata_test.json"
+        )
         df = pd.DataFrame({"col1": [1, 2, 3]})
         table_name = "test_table"
         sql_db.generate_database(table_name=table_name, df=df)
@@ -36,7 +40,9 @@ class TestCreateTableFromDataframe(unittest.TestCase):
         pd.testing.assert_frame_equal(res, df)
 
     def test_create_table_from_dataframe_with_mixed_data_types(self):
-        sql_db = SQLDatabase(db_path="../python-syml/data/database_test.db", metadata_path="../python-syml/config/metadata_test.json")
+        sql_db = SQLDatabase(
+            db_path="../python-syml/data/tests/database_test.db", metadata_path="../python-syml/config/tests/metadata_test.json"
+        )
         df = pd.DataFrame({"A": [1, 2, 3], "B": [1.1, 2.2, 3.3], "C": ["a", "b", "c"]})
         table_name = "test_table"
         sql_db.generate_database(table_name=table_name, df=df)
@@ -46,7 +52,9 @@ class TestCreateTableFromDataframe(unittest.TestCase):
 
 class TestQueryReturnsEmptyDataFrame(unittest.TestCase):
     def test_query_returns_empty_dataframe(self):
-        sql_db = SQLDatabase(db_path="../python-syml/data/database_test.db", metadata_path="../python-syml/config/metadata_test.json")
+        sql_db = SQLDatabase(
+            db_path="../python-syml/data/tests/database_test.db", metadata_path="../python-syml/config/tests/metadata_test.json"
+        )
         result = sql_db.query("SELECT * FROM non_existing_table")
 
         assert len(result) == 0
@@ -54,7 +62,9 @@ class TestQueryReturnsEmptyDataFrame(unittest.TestCase):
     def test_query_with_limit_and_offset(self):
         df = pd.DataFrame([[1, "a"], [2, "b"], [3, "c"]], columns=["id", "name"])
 
-        sql_db = SQLDatabase(db_path="../python-syml/data/database_test.db", metadata_path="../python-syml/config/metadata_test.json")
+        sql_db = SQLDatabase(
+            db_path="../python-syml/data/tests/database_test.db", metadata_path="../python-syml/config/tests/metadata_test.json"
+        )
         sql_db.generate_database(df=df, table_name="test_table")
 
         result = sql_db.query("SELECT * FROM test_table LIMIT 2 OFFSET 1")
