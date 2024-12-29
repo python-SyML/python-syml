@@ -1,6 +1,8 @@
+import os
 import shutil
 import tempfile
 import unittest
+from pathlib import Path
 from unittest.mock import MagicMock
 from unittest.mock import patch
 
@@ -20,11 +22,13 @@ class TestInitTables(unittest.TestCase):
         self.temp_dir_data = tempfile.mkdtemp(dir=self.base_temp_dir_data)
 
         self.sql_db = SQLDatabase(db_path=f"{self.temp_dir_data}/database_test.db", metadata_path=f"{self.temp_dir_config}/metadata.json")
+        self.original_cwd = Path.cwd()
 
     def tearDown(self):
         # Clean up the temporary directory
         shutil.rmtree(self.temp_dir_data)
         shutil.rmtree(self.temp_dir_config)
+        os.chdir(self.original_cwd)
 
     def test_init_tables_returns_empty_dict(self):
         with patch.object(self.sql_db, "metadata_manager", new_callable=MagicMock) as mock_object:

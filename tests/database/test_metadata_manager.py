@@ -1,4 +1,5 @@
 import json
+import os
 import shutil
 import tempfile
 import unittest
@@ -18,10 +19,12 @@ class TestJSONFileHandler(unittest.TestCase):
         self.base_temp_dir_config = "../python-syml/tests"
         # Create a temporary directory at the specified path
         self.temp_dir_config = tempfile.mkdtemp(dir=self.base_temp_dir_config)
+        self.original_cwd = Path.cwd()
 
     def tearDown(self):
         # Clean up the temporary directory
         shutil.rmtree(self.temp_dir_config)
+        os.chdir(self.original_cwd)
 
     @patch("pathlib.Path.open", new_callable=MagicMock)
     def test_create_json_file_with_dictionary(self, mock_open):
