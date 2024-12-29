@@ -1,4 +1,6 @@
 import json
+import shutil
+import tempfile
 import unittest
 import unittest.mock
 from pathlib import Path
@@ -11,9 +13,19 @@ from syml.database.metadata_manager import JSONFileHandler
 
 
 class TestJSONFileHandler(unittest.TestCase):
+    def setUp(self):
+        # Specify the directory where the temporary folder should be created
+        self.base_temp_dir_config = "../python-syml/tests"
+        # Create a temporary directory at the specified path
+        self.temp_dir_config = tempfile.mkdtemp(dir=self.base_temp_dir_config)
+
+    def tearDown(self):
+        # Clean up the temporary directory
+        shutil.rmtree(self.temp_dir_config)
+
     @patch("pathlib.Path.open", new_callable=MagicMock)
     def test_create_json_file_with_dictionary(self, mock_open):
-        file_path = Path("../python-syml/config/config_test.json")
+        file_path = Path(f"{self.temp_dir_config}/config_test.json")
         json_file_handler = JSONFileHandler(file_path)
         data = {"key1": "value1", "key2": "value2"}
 
@@ -30,7 +42,7 @@ class TestJSONFileHandler(unittest.TestCase):
 
     @patch("pathlib.Path.open", new_callable=MagicMock)
     def test_create_json_file_with_list(self, mock_open):
-        file_path = Path("../python-syml/config/config_test.json")
+        file_path = Path(f"{self.temp_dir_config}/config_test.json")
         json_file_handler = JSONFileHandler(file_path)
         data = ["item1", "item2", "item3"]
 
@@ -51,7 +63,7 @@ class TestJSONFileHandler(unittest.TestCase):
 
     @patch("pathlib.Path.open", new_callable=MagicMock)
     def test_create_json_file_with_nested_dict_and_list(self, mock_open):
-        file_path = Path("../python-syml/config/config_test.json")
+        file_path = Path(f"{self.temp_dir_config}/config_test.json")
         json_file_handler = JSONFileHandler(file_path)
         data = {
             "key1": "value1",
@@ -102,7 +114,7 @@ class TestJSONFileHandler(unittest.TestCase):
 
     @patch("pathlib.Path.open", new_callable=MagicMock)
     def test_create_json_file_with_empty_dictionary(self, mock_open):
-        file_path = Path("../python-syml/config/config_test.json")
+        file_path = Path(f"{self.temp_dir_config}/config_test.json")
         json_file_handler = JSONFileHandler(file_path)
         data = {}
 
@@ -115,7 +127,7 @@ class TestJSONFileHandler(unittest.TestCase):
 
     @patch("pathlib.Path.open", new_callable=MagicMock)
     def test_create_json_file_with_empty_list(self, mock_open):
-        file_path = Path("../python-syml/config/config_test.json")
+        file_path = Path(f"{self.temp_dir_config}/config_test.json")
         json_file_handler = JSONFileHandler(file_path)
         data = []
 
@@ -134,7 +146,7 @@ class TestJSONFileHandler(unittest.TestCase):
             json_file_handler.create_json_file({"key1": "value1"})
 
     def test_create_json_file_with_invalid_data_type(self):
-        file_path = Path("../python-syml/config/config_test.json")
+        file_path = Path(f"{self.temp_dir_config}/config_test.json")
         json_file_handler = JSONFileHandler(file_path)
         invalid_data = "invalid_data"
 
@@ -157,7 +169,7 @@ class TestJSONFileHandler(unittest.TestCase):
         assert result is None
 
     def test_read_json_file_with_empty_dictionary(self):
-        file_path = Path("../python-syml/config/config_test.json")
+        file_path = Path(f"{self.temp_dir_config}/config_test.json")
         json_file_handler = JSONFileHandler(file_path)
 
         json_file_handler.create_json_file({})
@@ -167,7 +179,7 @@ class TestJSONFileHandler(unittest.TestCase):
         assert result is None
 
     def test_read_json_file_with_empty_list(self):
-        file_path = Path("../python-syml/config/config_test.json")
+        file_path = Path(f"{self.temp_dir_config}/config_test.json")
         json_file_handler = JSONFileHandler(file_path)
 
         json_file_handler.create_json_file([])
