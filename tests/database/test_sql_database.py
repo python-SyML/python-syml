@@ -1,4 +1,3 @@
-import os
 import shutil
 import tempfile
 import unittest
@@ -29,7 +28,6 @@ class TestInitTables(unittest.TestCase):
         self.sql_db.close_connection()
         shutil.rmtree(self.temp_dir_data)
         shutil.rmtree(self.temp_dir_config)
-        os.chdir(self.original_cwd)
 
     def test_init_tables_returns_empty_dict(self):
         with patch.object(self.sql_db, "metadata_manager", new_callable=MagicMock) as mock_object:
