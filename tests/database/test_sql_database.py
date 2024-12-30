@@ -26,6 +26,7 @@ class TestInitTables(unittest.TestCase):
 
     def tearDown(self):
         # Clean up the temporary directory
+        self.sql_db.close_connection()
         shutil.rmtree(self.temp_dir_data)
         shutil.rmtree(self.temp_dir_config)
         os.chdir(self.original_cwd)
