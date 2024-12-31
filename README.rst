@@ -1,4 +1,4 @@
-.. |SyML Logo| image:: https://github.com/KillianVar/python-syml/raw/dev/docs/source/img/banner.png
+.. |SyML Logo| image:: ../docs/source/img/banner.png
 
 ========
 Overview
