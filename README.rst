@@ -1,4 +1,4 @@
-.. |SyML Logo| image:: ../docs/source/img/banner.png
+.. |SyML-Logo| image:: ../docs/source/img/banner.png
 
 ========
 Overview
