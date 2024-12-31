@@ -1,3 +1,5 @@
+![SyML Logo](https://github.com/KillianVar/python-syml/raw/dev/docs/source/img/banner.png)
+
 ========
 Overview
 ========
