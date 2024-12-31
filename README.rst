@@ -1,3 +1,5 @@
+|SyML-Logo|
+
 .. |SyML-Logo| image:: ../docs/source/img/banner.png
 
 ========
