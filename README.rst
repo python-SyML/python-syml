@@ -1,3 +1,7 @@
+|SyML-Logo|
+
+.. |SyML-Logo| image:: https://github.com/KillianVar/python-syml/raw/dev/docs/source/img/banner.png
+
 ========
 Overview
 ========
@@ -45,9 +49,9 @@ Overview
     :alt: Supported implementations
     :target: https://pypi.org/project/syml
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/KillianVar/python-syml/v0.6.0.svg
+.. |commits-since| image:: https://img.shields.io/github/commits-since/KillianVar/python-syml/v0.7.2.svg
     :alt: Commits since latest release
-    :target: https://github.com/KillianVar/python-syml/compare/v0.6.0...main
+    :target: https://github.com/KillianVar/python-syml/compare/v0.7.2...main
 
 
 

@@ -66,8 +66,12 @@ class SQLDatabase:
         self.connection.close()
 
     def query(self, query):
-        self.cursor.execute(query)
         table = find_table_name(query)
+
+        if table not in self.tables.keys():
+            return pd.DataFrame()  # Return empty DataFrame if table not found in metadata
+
+        self.cursor.execute(query)
         column_names_sql = [description[0] for description in self.cursor.description]
         column_names = [self.tables[table]["mapping_columns_sql_df"][col] for col in column_names_sql]
         return pd.DataFrame(self.cursor.fetchall(), columns=column_names)
