@@ -1,10 +1,6 @@
-|SyML-Logo|
-
-.. |SyML-Logo| image:: https://github.com/KillianVar/python-syml/raw/dev/docs/source/img/banner.png
-
-========
-Overview
-========
+=========================
+Repo Health Information
+=========================
 
 .. start-badges
 
@@ -25,11 +21,11 @@ Overview
     :alt: GitHub Actions Build Status
     :target: https://github.com/KillianVar/python-syml/actions
 
-.. |coverage| image:: https://app.codacy.com/project/badge/Coverage/8d0cc71c89524ea1ab77e9724ab74df9
+.. |coverage| image:: https://app.codacy.com/project/badge/Coverage/011ba7fa745b4a3083ea714909699110
     :alt: Coverage Build Status
     :target: https://app.codacy.com/gh/KillianVar/python-syml/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage
 
-.. |codacy| image:: https://img.shields.io/codacy/grade/c67d6aeb590745b5832fd8e5d3d7717c.svg
+.. |codacy| image:: https://app.codacy.com/project/badge/Grade/011ba7fa745b4a3083ea714909699110
     :target: https://app.codacy.com/gh/KillianVar/python-syml/dashboard
     :alt: Codacy Code Quality Status
 
@@ -49,13 +45,19 @@ Overview
     :alt: Supported implementations
     :target: https://pypi.org/project/syml
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/KillianVar/python-syml/v0.7.2.svg
+.. |commits-since| image:: https://img.shields.io/github/commits-since/KillianVar/python-syml/v0.7.4.svg
     :alt: Commits since latest release
-    :target: https://github.com/KillianVar/python-syml/compare/v0.7.2...main
+    :target: https://github.com/KillianVar/python-syml/compare/v0.7.4...main
 
 
 
 .. end-badges
+
+|SyML-Logo|
+
+.. |SyML-Logo| image:: https://github.com/KillianVar/python-syml/raw/dev/docs/source/img/banner.png
+
+
 
 SyML (Systematic Machine Learning) is a library built to make Machine Learning simpler, by using SOTA ML, xAI and
 vizualisation methods.

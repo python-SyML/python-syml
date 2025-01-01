@@ -1,6 +1,6 @@
 import streamlit as st
 
-from syml.diagnostool.semantic.label_clustering import LabelAnalysis
+from syml.diagnostool.semantic.semantIA import SementIA
 from syml.diagnostool.semantic.utils import df_typo
 from syml.interract.page_class import BasePageElement
 
@@ -47,6 +47,9 @@ class LabelGrouping(BasePageElement):
             n_typos = st.slider("Number of typos", 1, 20, step=1, value=5)
             data = df_typo(data, n_typos=n_typos)
 
-        label_analysis = LabelAnalysis(labels=data, path="../python-syml/data/embeddings_{field_name}.pt", field_name=to_inspect)
-        fig = label_analysis.plot_umap()
+        label_analysis = SementIA(labels=data, path="../python-syml/data/embeddings_{field_name}.pt", field_name=to_inspect)
+        fig = label_analysis.scatter_labels()
+        st.plotly_chart(fig)
+
+        fig = label_analysis.heatmap_similiarities()
         st.plotly_chart(fig)
