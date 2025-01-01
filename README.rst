@@ -25,7 +25,7 @@ Repo Health Information
     :alt: Coverage Build Status
     :target: https://app.codacy.com/gh/KillianVar/python-syml/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage
 
-.. |codacy| image:: https://img.shields.io/codacy/grade/c67d6aeb590745b5832fd8e5d3d7717c.svg
+.. |codacy| image:: https://app.codacy.com/project/badge/Grade/011ba7fa745b4a3083ea714909699110
     :target: https://app.codacy.com/gh/KillianVar/python-syml/dashboard
     :alt: Codacy Code Quality Status
 
