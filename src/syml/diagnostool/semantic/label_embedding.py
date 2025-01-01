@@ -4,6 +4,7 @@ import numpy as np
 import torch as pt
 from sentence_transformers import SentenceTransformer
 
+from .clustering import Clustering
 from .utils import get_device
 
 
@@ -22,6 +23,7 @@ class LabelEmbedder:
         self.embedding_model = self.init_model(embedding_model, device=self.device)
         self.embeddings = self.embed(labels=self.labels)
         self._similarities = self.embedding_model.similarity(self.embeddings, self.embeddings)
+        self.clustering = Clustering(self.embeddings, self.labels)
 
     def init_model(self, embedding_model, device):
         return SentenceTransformer(embedding_model, device=device)
@@ -39,6 +41,7 @@ class LabelEmbedder:
         self._labels = labels
         self.embeddings = self.embed(labels=self.labels)
         self._similarities = self.embedding_model.similarity(self.embeddings, self.embeddings)
+        self.clustering = Clustering(self.embeddings, self.labels)
 
     def embed(self, labels=None):
         path = Path(self.path.format(field_name=self.field_name))
