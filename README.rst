@@ -1,9 +1,5 @@
-|SyML-Logo|
-
-.. |SyML-Logo| image:: https://github.com/KillianVar/python-syml/raw/dev/docs/source/img/banner.png
-
 ========
-Overview
+Repo Health Information
 ========
 
 .. start-badges
@@ -56,6 +52,12 @@ Overview
 
 
 .. end-badges
+
+|SyML-Logo|
+
+.. |SyML-Logo| image:: https://github.com/KillianVar/python-syml/raw/dev/docs/source/img/banner.png
+
+
 
 SyML (Systematic Machine Learning) is a library built to make Machine Learning simpler, by using SOTA ML, xAI and
 vizualisation methods.
