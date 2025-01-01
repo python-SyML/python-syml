@@ -104,3 +104,8 @@ Note, to combine the coverage data from all the tox environments run:
       - ::
 
             PYTEST_ADDOPTS=--cov-append tox
+
+
+.. image:: https://api.codacy.com/project/badge/Grade/c434a3bb12fd450b91548372414881f8
+   :alt: Codacy Badge
+   :target: https://app.codacy.com/gh/python-SyML/python-syml?utm_source=github.com&utm_medium=referral&utm_content=python-SyML/python-syml&utm_campaign=Badge_Grade
