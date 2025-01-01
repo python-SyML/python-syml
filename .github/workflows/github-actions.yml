@@ -127,11 +127,3 @@ jobs:
       with:
         project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
         coverage-reports: coverage.xml
-  finish:
-    needs: lib_test
-    if: ${{ always() }}
-    runs-on: ubuntu-latest
-    steps:
-    - uses: coverallsapp/github-action@v2.3.4
-      with:
-        parallel-finished: true
