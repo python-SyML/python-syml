@@ -15,7 +15,9 @@ class Clustering:
 
         clustered_sentences = {}
         for sentence_id, cluster_id in enumerate(self.labels_cluster):
-            if cluster_id not in clustered_sentences:
+            if f"cluster {cluster_id}" not in clustered_sentences.keys():
                 clustered_sentences[f"cluster {cluster_id}"] = []
 
             clustered_sentences[f"cluster {cluster_id}"].append(self.labels[sentence_id])
+
+        self.clusters = clustered_sentences

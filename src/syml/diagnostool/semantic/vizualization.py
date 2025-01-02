@@ -3,7 +3,7 @@ import plotly.express as px
 import umap
 
 
-def plot_umap(embeddings, labels, n_components=2, n_neighbors=2, min_dist=0.1, metric="euclidean"):
+def plot_umap(embeddings, labels, clusters="red", n_components=2, n_neighbors=2, min_dist=0.1, metric="euclidean"):
     """
     Apply UMAP to a list of strings embedded using SpaCy and plot the result using Plotly.
 
@@ -15,13 +15,6 @@ def plot_umap(embeddings, labels, n_components=2, n_neighbors=2, min_dist=0.1, m
     random_state (int): Determines the random number generation for initialization.
     """
 
-    # if labels is None:
-    #     labels = self.labels
-    # else:
-    #     self.labels = labels
-
-    # embeddings = self.embeddings
-
     # Apply UMAP
     reducer = umap.UMAP(n_components=n_components, n_neighbors=n_neighbors, min_dist=min_dist, metric=metric)
     reduced_data = reducer.fit_transform(embeddings)
@@ -30,7 +23,8 @@ def plot_umap(embeddings, labels, n_components=2, n_neighbors=2, min_dist=0.1, m
     if n_components == 2:
         df = pd.DataFrame(reduced_data, columns=["UMAP1", "UMAP2"])
         df["Label"] = labels
-        fig = px.scatter(df, x="UMAP1", y="UMAP2", text="Label", title="UMAP 2D Plot")
+        fig = px.scatter(df, x="UMAP1", y="UMAP2", text="Label", title="UMAP 2D Plot", color=clusters)
+        fig.update_traces(marker={"size": 10})
     elif n_components == 3:
         df = pd.DataFrame(reduced_data, columns=["UMAP1", "UMAP2", "UMAP3"])
         df["Label"] = labels

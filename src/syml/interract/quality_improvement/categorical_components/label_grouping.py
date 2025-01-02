@@ -48,8 +48,18 @@ class LabelGrouping(BasePageElement):
             data = df_typo(data, n_typos=n_typos)
 
         label_analysis = SementIA(labels=data, path="../python-syml/data/embeddings_{field_name}.pt", field_name=to_inspect)
+
+        distance = st.slider("Distance threshold for clustering", 0.0, 10.0, 0.1, step=0.05)
+        clusters = label_analysis.embedder.make_clusters(distance_threshold=distance)
+
         fig = label_analysis.scatter_labels()
         st.plotly_chart(fig)
 
         fig = label_analysis.heatmap_similiarities()
         st.plotly_chart(fig)
+
+        tabs = st.tabs(clusters.keys())
+
+        for tab, labels_clustered in zip(tabs, clusters.values()):
+            tab.write("Cluster contains the following values :")
+            tab.write(labels_clustered)
