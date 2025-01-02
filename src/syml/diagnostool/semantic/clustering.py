@@ -1,3 +1,6 @@
+import Levenshtein as lv
+import numpy as np
+from sklearn.cluster import AffinityPropagation
 from sklearn.cluster import AgglomerativeClustering
 
 
@@ -13,6 +16,7 @@ class Clustering:
         self.clustering_model.fit(self.embeddings)
         self.labels_cluster = self.clustering_model.labels_
 
+    def clusters_dict(self):
         clustered_sentences = {}
         for sentence_id, cluster_id in enumerate(self.labels_cluster):
             if f"cluster {cluster_id}" not in clustered_sentences.keys():
@@ -21,3 +25,20 @@ class Clustering:
             clustered_sentences[f"cluster {cluster_id}"].append(self.labels[sentence_id])
 
         self.clusters = clustered_sentences
+
+    def typo_clustering(self):
+        sim = np.zeros((len(self.labels), len(self.labels)))
+        for i, seq_1 in enumerate(self.labels):
+            for j, seq_2 in enumerate(self.labels):
+                sim[i, j] = lv.ratio(seq_1, seq_2)
+
+        model = AffinityPropagation(affinity="precomputed").fit(sim)
+        self.labels_cluster = model.labels_
+
+    def get_clusters(self, method="typo"):
+        if method == "typo":
+            self.typo_clustering()
+        else:
+            self.find_cluster()
+
+        self.clusters_dict()

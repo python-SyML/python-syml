@@ -15,3 +15,4 @@ torch
 transformers
 sentence-transformers
 umap-learn
+Levenshtein

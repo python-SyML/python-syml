@@ -60,5 +60,5 @@ class LabelEmbedder:
 
     def make_clusters(self, n_clusters=None, distance_threshold=1.0):
         self.clustering.init_clustering(n_clusters=n_clusters, distance_threshold=distance_threshold)
-        self.clustering.find_cluster()
+        self.clustering.get_clusters()
         return self.clustering.clusters
