@@ -11,22 +11,27 @@ from .utils import get_device
 class LabelEmbedder:
     def __init__(
         self,
-        labels=None,
+        data=None,
         embedding_model="all-MiniLM-L6-v2",
         path="",
         field_name="",
     ):
-        self._labels = labels
+        self._data = data
+        self._labels = data.index
         self.field_name = field_name
         self.path = path
         self.device = get_device()
         self.embedding_model = self.init_model(embedding_model, device=self.device)
         self.embeddings = self.embed(labels=self.labels)
-        self._similarities = self.embedding_model.similarity(self.embeddings, self.embeddings)
-        self.clustering = Clustering(self.embeddings, self.labels)
+        self.clustering = Clustering(self.embeddings, self.data)
+        self._similarities = self.clustering.similarity
 
     def init_model(self, embedding_model, device):
         return SentenceTransformer(embedding_model, device=device)
+
+    @property
+    def data(self):
+        return self._data
 
     @property
     def labels(self):
@@ -36,12 +41,13 @@ class LabelEmbedder:
     def similarities(self):
         return self._similarities
 
-    @labels.setter
-    def labels(self, labels):
-        self._labels = labels
+    @data.setter
+    def data(self, new_data):
+        self._data = new_data
+        self._labels = new_data.index
         self.embeddings = self.embed(labels=self.labels)
-        self._similarities = self.embedding_model.similarity(self.embeddings, self.embeddings)
         self.clustering = Clustering(self.embeddings, self.labels)
+        self._similarities = self.clustering.similarity
 
     def embed(self, labels=None):
         path = Path(self.path.format(field_name=self.field_name))
@@ -57,8 +63,3 @@ class LabelEmbedder:
             return embeds
         else:
             return self.embeddings
-
-    def make_clusters(self, n_clusters=None, distance_threshold=1.0):
-        self.clustering.init_clustering(n_clusters=n_clusters, distance_threshold=distance_threshold)
-        self.clustering.get_clusters()
-        return self.clustering.clusters

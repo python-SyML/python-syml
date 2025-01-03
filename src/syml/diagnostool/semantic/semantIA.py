@@ -6,12 +6,12 @@ from .vizualization import plot_umap
 class SementIA:
     def __init__(
         self,
-        labels,
+        data,
         path="",
         field_name="",
     ):
-        self.labels = labels
-        self.embedder = LabelEmbedder(labels=self.labels, field_name=field_name, path=path)
+        self.data = data
+        self.embedder = LabelEmbedder(data=self.data, field_name=field_name, path=path)
 
     def scatter_labels(self):
         return plot_umap(self.embedder.embeddings, self.embedder.labels, clusters=self.embedder.clustering.labels_cluster.astype(str))

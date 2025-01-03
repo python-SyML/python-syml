@@ -1,3 +1,4 @@
+import pandas as pd
 import streamlit as st
 
 from syml.diagnostool.semantic.semantIA import SementIA
@@ -31,7 +32,7 @@ class LabelGrouping(BasePageElement):
     def analysis(self):
         columns = self.data.columns
         to_inspect = st.selectbox("Field to inspect :mag:", options=columns)
-        data = self.data[to_inspect].dropna().unique()
+        data = pd.DataFrame(self.data[to_inspect].dropna().value_counts())
 
         st.markdown("""
                     If you want to simulate potential typos in your data in order to further be able to prevent those,
@@ -47,10 +48,8 @@ class LabelGrouping(BasePageElement):
             n_typos = st.slider("Number of typos", 1, 20, step=1, value=5)
             data = df_typo(data, n_typos=n_typos)
 
-        label_analysis = SementIA(labels=data, path="../python-syml/data/embeddings_{field_name}.pt", field_name=to_inspect)
-
-        distance = st.slider("Distance threshold for clustering", 0.0, 10.0, 0.1, step=0.05)
-        clusters = label_analysis.embedder.make_clusters(distance_threshold=distance)
+        label_analysis = SementIA(data=data, path="../python-syml/data/embeddings_{field_name}.pt", field_name=to_inspect)
+        clusters = label_analysis.embedder.clustering.clusters
 
         fig = label_analysis.scatter_labels()
         st.plotly_chart(fig)

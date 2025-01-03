@@ -1,20 +1,14 @@
 import Levenshtein as lv
 import numpy as np
 from sklearn.cluster import AffinityPropagation
-from sklearn.cluster import AgglomerativeClustering
+from sklearn.metrics.pairwise import cosine_similarity
 
 
 class Clustering:
-    def __init__(self, embeddings, labels):
+    def __init__(self, embeddings, data):
         self.embeddings = embeddings
-        self.labels = labels
-
-    def init_clustering(self, n_clusters=None, distance_threshold=1.0):
-        self.clustering_model = AgglomerativeClustering(n_clusters=n_clusters, distance_threshold=distance_threshold)
-
-    def find_cluster(self):
-        self.clustering_model.fit(self.embeddings)
-        self.labels_cluster = self.clustering_model.labels_
+        self.data = data
+        self.get_clusters()
 
     def clusters_dict(self):
         clustered_sentences = {}
@@ -22,23 +16,26 @@ class Clustering:
             if f"cluster {cluster_id}" not in clustered_sentences.keys():
                 clustered_sentences[f"cluster {cluster_id}"] = []
 
-            clustered_sentences[f"cluster {cluster_id}"].append(self.labels[sentence_id])
+            clustered_sentences[f"cluster {cluster_id}"].append(self.data.index[sentence_id])
 
         self.clusters = clustered_sentences
 
-    def typo_clustering(self):
-        sim = np.zeros((len(self.labels), len(self.labels)))
-        for i, seq_1 in enumerate(self.labels):
-            for j, seq_2 in enumerate(self.labels):
+    def get_similarity(self):
+        sim = np.zeros((len(self.data.index), len(self.data.index)))
+        for i, seq_1 in enumerate(self.data.index):
+            for j, seq_2 in enumerate(self.data.index):
                 sim[i, j] = lv.ratio(seq_1, seq_2)
 
-        model = AffinityPropagation(affinity="precomputed").fit(sim)
+        sim = (sim + (1 + cosine_similarity(self.embeddings)) / 2) / 2
+
+        self.similarity = sim
+
+    def typo_clustering(self):
+        model = AffinityPropagation(affinity="precomputed", max_iter=int(2e3), convergence_iter=100).fit(self.similarity)
+
         self.labels_cluster = model.labels_
 
-    def get_clusters(self, method="typo"):
-        if method == "typo":
-            self.typo_clustering()
-        else:
-            self.find_cluster()
-
+    def get_clusters(self, *args, **kwargs):
+        self.get_similarity()
+        self.typo_clustering(*args, **kwargs)
         self.clusters_dict()
