@@ -45,9 +45,9 @@ Repo Health Information
     :alt: Supported implementations
     :target: https://pypi.org/project/syml
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/KillianVar/python-syml/v0.7.7.svg
+.. |commits-since| image:: https://img.shields.io/github/commits-since/KillianVar/python-syml/v/v/v0.7.7...main.svg.svg
     :alt: Commits since latest release
-    :target: https://github.com/KillianVar/python-syml/compare/v0.7.7...main
+    :target: https://github.com/KillianVar/python-syml/compare/v/v/v0.7.7...main.svg...main
 
 
 
