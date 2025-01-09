@@ -1,6 +1,7 @@
 import random
 import string
 
+import numpy as np
 import pandas as pd
 import torch
 
@@ -78,28 +79,32 @@ def generate_typos(text, num_typos=3):
     return typos
 
 
-def generate_typos_for_list(strings, n_typos=3):
+def generate_typos_for_list(data, n_typos=3):
     """
     Generate typos for a list of strings using Pandas `pd.apply`.
 
     Parameters:
-    strings (list of str): The list of original strings.
+    df (pandas.DataFrame): The table of original strings and occurrences.
     n_typos (int): The number of typos to generate for each string.
 
     Returns:
     pd.DataFrame: A DataFrame where each row contains the original string and its corresponding typos.
     """
-    # Create a DataFrame from the list of strings
-    df = pd.DataFrame(strings, columns=["Original"])
+    df = data.copy()
+    df.index.names = ["Original"]
+    df = df.reset_index()
 
     # Apply the generate_typos function to each row
     df["Typos"] = df["Original"].apply(lambda x: generate_typos(x, num_typos=n_typos))
 
     # Explode the list of typos into separate rows
-    df_exploded = df.explode("Typos").reset_index(drop=True)
+    df_exploded = df.explode("Typos")
+    df_exploded["count"] = df_exploded["count"].apply(lambda x: np.ceil(x * np.random.uniform(0.01, 0.05) / n_typos))
 
-    return df_exploded
+    return df_exploded.drop(columns=["Original"]).set_index("Typos")
 
 
-def df_typo(labels, n_typos=5):
-    return generate_typos_for_list(labels, n_typos=n_typos)["Typos"].unique()
+def df_typo(data, n_typos=5):
+    typos = generate_typos_for_list(data, n_typos=n_typos)
+    typos = pd.concat([typos, data], axis=0)
+    return typos.sample(frac=1)

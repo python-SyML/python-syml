@@ -11,6 +11,8 @@ class Homepage(BasePageElement):
         pass
 
     def introduction(self):
+        st.logo("../python-syml/docs/source/img/narrow_banner.png", size="large")
+        st.image("../python-syml/docs/source/img/narrow_banner.png")
         st.title("SyML Library :brain:")
 
         st.markdown("""

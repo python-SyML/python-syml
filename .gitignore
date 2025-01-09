@@ -88,3 +88,6 @@ data
 # config
 config
 config/**
+
+# models
+.models
