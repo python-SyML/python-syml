@@ -106,6 +106,5 @@ def generate_typos_for_list(data, n_typos=3):
 
 def df_typo(data, n_typos=5):
     typos = generate_typos_for_list(data, n_typos=n_typos)
-    print(data)
     typos = pd.concat([typos, data], axis=0)
     return typos.sample(frac=1)

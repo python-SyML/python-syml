@@ -7,7 +7,7 @@ class SementIA:
     def __init__(
         self,
         data,
-        path="",
+        path="../python-syml/data/embeddings_{field_name}.pt",
         field_name="",
     ):
         self.data = data

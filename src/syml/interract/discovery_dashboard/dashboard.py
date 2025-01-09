@@ -16,6 +16,8 @@ class Dashboard(BasePageElement):
         self.setup_child(FieldInspector(self.db))
 
     def introduction(self):
+        # st.set_page_config(layout="wide")
+        st.logo("../python-syml/docs/source/img/narrow_banner.png", size="large")
         st.title("Data Discovery Dashboard :telescope:")
 
         st.markdown("""

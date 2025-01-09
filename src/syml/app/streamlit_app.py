@@ -9,7 +9,6 @@ quality_improvement_page = st.Page("data_exploration/quality_improvement.py", ti
 
 nav_tree = {"Homepage": [homepage], "Data Mining": [data_discovery_page, quality_improvement_page]}
 
-
 pg = st.navigation(nav_tree)
-st.set_page_config(page_title="Data manager", page_icon=":material/edit:")
+st.set_page_config(page_title="Data manager", page_icon=":material/edit:", layout="wide")
 pg.run()

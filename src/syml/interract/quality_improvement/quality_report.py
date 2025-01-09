@@ -16,6 +16,8 @@ class Report(BasePageElement):
         self.setup_child(self.setup_categorical_qia(self.data))
 
     def introduction(self):
+        # st.set_page_config(layout="wide")
+        st.logo("../python-syml/docs/source/img/narrow_banner.png", size="large")
         st.title("Quality Improvement Assistant 🧑🏼‍🔬")
 
         st.markdown("""

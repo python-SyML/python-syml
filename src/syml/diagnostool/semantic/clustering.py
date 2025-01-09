@@ -1,5 +1,6 @@
 import Levenshtein as lv
 import numpy as np
+from rapidfuzz import fuzz
 from sklearn.cluster import AffinityPropagation
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -21,12 +22,15 @@ class Clustering:
         self.clusters = clustered_sentences
 
     def get_similarity(self):
-        sim = np.zeros((len(self.data.index), len(self.data.index)))
+        sim_lev = np.zeros((len(self.data.index), len(self.data.index)))
+        sim_fuzz = np.zeros((len(self.data.index), len(self.data.index)))
+
         for i, seq_1 in enumerate(self.data.index):
             for j, seq_2 in enumerate(self.data.index):
-                sim[i, j] = lv.ratio(seq_1, seq_2)
+                sim_lev[i, j] = lv.ratio(seq_1, seq_2)
+                sim_fuzz[i, j] = fuzz.partial_ratio(seq_1, seq_2, score_cutoff=75) / 100
 
-        sim = (sim + (1 + cosine_similarity(self.embeddings)) / 2) / 2
+        sim = (sim_lev + sim_fuzz + (1 + cosine_similarity(self.embeddings)) / 2) / 3
 
         self.similarity = sim
 
