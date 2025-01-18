@@ -1,6 +1,9 @@
 import json
+import os
 import re
 from pathlib import Path
+
+import pandas as pd
 
 
 def reformat_string(s):
@@ -61,3 +64,26 @@ def read_config(selected_config: str, config_folder: str = "../config") -> dict:
             merged_data.update(data)
 
     return merged_data
+
+
+def load_data():
+    folder_path = Path("../python-syml/data")
+    files = os.listdir(folder_path)
+
+    # Filter files to find CSV and Parquet files
+    csv_files = [f for f in files if f.endswith(".csv")]
+    parquet_files = [f for f in files if f.endswith(".parquet")]
+
+    # Check if there is exactly one CSV or Parquet file
+    if len(csv_files) + len(parquet_files) != 1:
+        raise ValueError("There should be exactly one CSV or Parquet file in the folder.")
+
+    # Determine the file to read
+    if csv_files:
+        file_path = folder_path / Path(csv_files[0])
+        df = pd.read_csv(file_path)
+    elif parquet_files:
+        file_path = folder_path, Path(parquet_files[0])
+        df = pd.read_parquet(file_path)
+
+    return df

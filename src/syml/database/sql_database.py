@@ -4,6 +4,7 @@ import pandas as pd
 
 from .metadata_manager import JSONFileHandler
 from .utils import find_table_name
+from .utils import load_data
 from .utils import reformat_string
 
 
@@ -22,8 +23,8 @@ class SQLDatabase:
         else:
             return config
 
-    def read_csv(self, csv_file):
-        self.df = pd.read_csv(csv_file).drop(columns=["Unnamed: 0"])
+    def read_csv(self):
+        self.df = load_data().drop(columns=["Unnamed: 0"])
 
     def create_table_from_dataframe(self, table_name, df):
         self.tables[table_name] = {}
@@ -54,9 +55,9 @@ class SQLDatabase:
         else:
             return "TEXT"
 
-    def generate_database(self, csv_file="", df=None, table_name="dataset"):
+    def generate_database(self, df=None, table_name="dataset"):
         if df is None:
-            self.read_csv(csv_file)
+            self.read_csv()
             df = self.df
         self.create_table_from_dataframe(table_name, df)
         self.insert_data_from_dataframe(table_name, df)
