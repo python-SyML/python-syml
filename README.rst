@@ -70,20 +70,26 @@ SyML (Systematic Machine Learning) is a library built to make Machine Learning s
 vizualisation methods. It is meant to help you clean and preprocess your data, train ML algorithms, analyze those using xAI techniques,
 and much more !
 
-Main modules
-------------
+Main modules and features
+-------------------------
 
-+---------------+---------------------------------+------------------------+
-| Sub module    | Feature                         | Current status         |
-+===============+=================================+========================+
-| Data Mining   | Typo detection                  |                        |
-|               +---------------------------------+------------------------+
-|               | Label clustering                |                        |
-|               +---------------------------------+------------------------+
-|               | Label clustering                |                        |
-|               +---------------------------------+------------------------+
-|               | Label clustering                |                        |
-+---------------+---------------------------------+------------------------+
++---------------+-------------------------------+---------------------------------+------------------------+
+| Module        | Sub Module                    | Features                        | Current status         |
++===============+===============================+=================================+========================+
+| Data Mining   | Data Discovery Dashboard      | Data Vizualisation              | Implemented            |
+|               |                               +---------------------------------+------------------------+
+|               |                               | Data type detection             | Implemented            |
+|               |                               +---------------------------------+------------------------+
+|               |                               | Data variability assessment     | Implemented            |
+|               +-------------------------------+---------------------------------+------------------------+
+|               | Quality Improvement Asssitant | Typo detection                  | Implemented            |
+|               |                               +---------------------------------+------------------------+
+|               |                               | Label clustering                | Implemented            |
+|               |                               +---------------------------------+------------------------+
+|               |                               | Topic classification            | Under Implementation   |
+|               +-------------------------------+---------------------------------+------------------------+
+|               |                                                                                          |
++---------------+-------------------------------+---------------------------------+------------------------+
 
 * Free software: MIT license
 
