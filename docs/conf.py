@@ -26,8 +26,9 @@ extlinks = {
 
 html_theme = "furo"
 html_theme_options = {
-    "githuburl": "https://github.com/KillianVar/python-syml/",
+    "githuburl": "https://github.com/python-SyML/python-syml/",
 }
+html_logo = "source/img/logo.png"
 
 html_use_smartypants = True
 html_last_updated_fmt = "%b %d, %Y"

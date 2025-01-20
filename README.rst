@@ -1,6 +1,15 @@
-=========================
-Repo Health Information
-=========================
+########
+Overview
+########
+
+|SyML-Logo|
+
+.. |SyML-Logo| image:: https://github.com/KillianVar/python-syml/raw/dev/docs/source/img/banner.png
+
+
+==================
+Repo Health Status
+==================
 
 .. start-badges
 
@@ -53,14 +62,28 @@ Repo Health Information
 
 .. end-badges
 
-|SyML-Logo|
-
-.. |SyML-Logo| image:: https://github.com/KillianVar/python-syml/raw/dev/docs/source/img/banner.png
-
-
+===================
+What does SyML do ?
+===================
 
 SyML (Systematic Machine Learning) is a library built to make Machine Learning simpler, by using SOTA ML, xAI and
-vizualisation methods.
+vizualisation methods. It is meant to help you clean and preprocess your data, train ML algorithms, analyze those using xAI techniques,
+and much more !
+
+Main modules
+------------
+
++---------------+---------------------------------+------------------------+
+| Sub module    | Feature                         | Current status         |
++===============+=================================+========================+
+| Data Mining   | Typo detection                  |                        |
+|               +---------------------------------+------------------------+
+|               | Label clustering                |                        |
+|               +---------------------------------+------------------------+
+|               | Label clustering                |                        |
+|               +---------------------------------+------------------------+
+|               | Label clustering                |                        |
++---------------+---------------------------------+------------------------+
 
 * Free software: MIT license
 
