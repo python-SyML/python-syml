@@ -47,7 +47,7 @@ Changelog = "https://python-syml.readthedocs.io/en/latest/changelog.html"
 "Issue Tracker" = "https://github.com/KillianVar/python-syml/issues"
 
 [project.scripts]
-syml = "syml.cli:run"
+syml = "cli.cli:cli"
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["docs/dependencies.txt"]}

@@ -108,6 +108,8 @@ You can also install the in-development version with::
 Documentation
 =============
 
+You will in the documentaton all details about SyML's implementation but also How-to's guides as well as high-level
+explanations and descriptions on SyML's features.
 
 https://python-syml.readthedocs.io/
 

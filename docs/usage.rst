@@ -11,8 +11,4 @@ In this guide, we will explain how to use this package.
 .. warning::
     The current implementation does not support multiple data files nor data files that are not csv or parquet files.
 
-
-
-.. code-block:: python
-
-    syml.compute(...)
+Within the repository, put in the "data" folder a data file. It **must** be **one single CSV or parquet** file.
