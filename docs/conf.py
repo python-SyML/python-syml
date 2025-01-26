@@ -17,18 +17,16 @@ author = "Killian Varescon"
 copyright = f"{year}, {author}"
 version = release = "0.7.9"
 
-pygments_style = "trac"
+pygments_style = "lightbulb"
 templates_path = ["."]
 extlinks = {
     "issue": ("https://github.com/KillianVar/python-syml/issues/%s", "#%s"),
     "pr": ("https://github.com/KillianVar/python-syml/pull/%s", "PR #%s"),
 }
 
-html_theme = "furo"
-html_theme_options = {
-    "githuburl": "https://github.com/python-SyML/python-syml/",
-}
+html_theme = "pydata_sphinx_theme"
 html_logo = "source/img/logo.png"
+html_theme_options = {"navbar_align": "left"}
 
 html_use_smartypants = True
 html_last_updated_fmt = "%b %d, %Y"

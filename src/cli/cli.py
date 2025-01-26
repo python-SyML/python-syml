@@ -26,7 +26,6 @@ def run():
     if path.match("**/src/**/*.py"):
         main_dir, _ = str(path).split("src")
         path = Path(main_dir) / Path("src/syml/app/streamlit_app.py")
-    click.echo(path)
     subprocess.run(["streamlit", "run", path])
 
 
