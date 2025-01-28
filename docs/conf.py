@@ -27,6 +27,7 @@ extlinks = {
 html_theme = "pydata_sphinx_theme"
 html_logo = "source/img/logo.png"
 html_theme_options = {"navbar_align": "left"}
+html_sidebars = {"quickstart": []}
 
 html_use_smartypants = True
 html_last_updated_fmt = "%b %d, %Y"
