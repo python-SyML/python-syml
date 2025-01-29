@@ -9,7 +9,7 @@ Quickstart Guide
 In this guide, we will explain how to use this package.
 
 1. Loading the data in Python-SyML
-=================================
+==================================
 .. warning::
     The current implementation does not support multiple data files nor data files that are not csv or parquet files.
 

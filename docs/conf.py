@@ -10,7 +10,7 @@ extensions = [
     "sphinx.ext.viewcode",
 ]
 source_suffix = ".rst"
-master_doc = "index"
+master_doc = "contents"
 project = "SyML"
 year = "2024"
 author = "Killian Varescon"
@@ -18,7 +18,7 @@ copyright = f"{year}, {author}"
 version = release = "0.7.9"
 
 pygments_style = "lightbulb"
-templates_path = ["."]
+templates_path = ["./source/_templates"]
 extlinks = {
     "issue": ("https://github.com/KillianVar/python-syml/issues/%s", "#%s"),
     "pr": ("https://github.com/KillianVar/python-syml/pull/%s", "PR #%s"),
@@ -28,6 +28,7 @@ html_theme = "pydata_sphinx_theme"
 html_logo = "source/img/logo.png"
 html_theme_options = {"navbar_align": "left"}
 html_sidebars = {"quickstart": []}
+html_additional_pages = {"index": "index.html"}
 
 html_use_smartypants = True
 html_last_updated_fmt = "%b %d, %Y"

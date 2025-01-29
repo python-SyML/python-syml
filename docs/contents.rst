@@ -2,10 +2,12 @@
 
 .. image:: https://github.com/KillianVar/python-syml/raw/dev/docs/source/img/narrow_banner.png
 
+|
 
 =================
 Welcome to SyML !
 =================
+
 
 .. toctree::
    :maxdepth: 2
