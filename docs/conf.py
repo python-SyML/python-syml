@@ -18,7 +18,7 @@ copyright = f"{year}, {author}"
 version = release = "0.7.10"
 
 pygments_style = "lightbulb"
-templates_path = ["./source/_templates"]
+templates_path = ["source/_templates"]
 extlinks = {
     "issue": ("https://github.com/KillianVar/python-syml/issues/%s", "#%s"),
     "pr": ("https://github.com/KillianVar/python-syml/pull/%s", "PR #%s"),
@@ -29,6 +29,8 @@ html_logo = "source/img/logo.png"
 html_theme_options = {"navbar_align": "left"}
 html_sidebars = {"quickstart": []}
 html_additional_pages = {"index": "index.html"}
+html_static_path = ["source/img", "source/_static/css"]
+html_css_files = ["index.css"]
 
 html_use_smartypants = True
 html_last_updated_fmt = "%b %d, %Y"

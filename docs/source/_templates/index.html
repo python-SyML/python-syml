@@ -1,2 +1,28 @@
 {% extends "layout.html" %}
-{% set title = _('Welcome!') %}
+{% set title = 'SyML : Systematic Machine Learning' %}
+
+{%- import "static/webpack-macros.html" as _webpack with context %}
+
+
+{% block docs_navbar %}
+{{ super() }}
+
+<div class="landing-top-bar">
+  <img src="_static/narrow_banner.png" alt="SyML Demo GIF">
+</div>
+
+{% endblock docs_navbar %}
+
+{% block body %}
+
+<section class="grid__intro-text">
+  <h1>SyML: Systematic Machine Learning for Python</h1>
+  <p>
+    SyML is a python library that provides several NLP, ML and xAI services encapsulated within a nice UI.
+    SyML aims to make data preparation, ML training and xAI usage the simplest possible.
+  </p>
+
+  </section>
+
+
+{% endblock body %}
